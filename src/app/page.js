@@ -24,6 +24,10 @@ import {
   MusicalNoteIcon
 } from '@heroicons/react/24/outline'
 
+import Education from '@/components/Education'
+import About from '@/components/About'
+import Interests from '@/components/Interests'
+
 // Alternative icon for GameController - using MusicalNoteIcon or you can use CpuChipIcon
 const GameControllerIcon = MusicalNoteIcon
 
@@ -166,8 +170,8 @@ export default function Home() {
                 key={link.href}
                 href={link.href}
                 className={`transition-colors ${activeSection === link.href.substring(1)
-                    ? 'text-[#c9c6c5] border-b-2 border-[#c9c6c5] pb-1'
-                    : 'text-[#c4c7c7] hover:text-[#c9c6c5]'
+                  ? 'text-[#c9c6c5] border-b-2 border-[#c9c6c5] pb-1'
+                  : 'text-[#c4c7c7] hover:text-[#c9c6c5]'
                   }`}
               >
                 {link.label}
@@ -210,108 +214,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Identity/About Section */}
-      <section className="py-32 bg-[#0c0e14] border-b border-[#444748]" id="identity">
-        <div className="max-w-[1440px] mx-auto px-[20px] md:px-[64px]">
-          <div className="flex items-start gap-12 mb-20">
-            <div className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] opacity-40">01_BIO</div>
-            <div>
-              <h2 className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] mb-4 tracking-[0.3em]">IDENTITY_LOG</h2>
-              <h3 className="font-['Geist_Mono'] text-[32px] font-semibold">About the Architect</h3>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
-            <div className="lg:col-span-5">
-              <div className="border border-[#444748] bg-[#1a1b22] p-4 overflow-hidden">
-                <div className="aspect-[4/5] bg-[#0c0e14] relative group">
-                  <div className="w-full h-full bg-gradient-to-br from-[#282a31] to-[#0c0e14] flex items-center justify-center">
-                    <ComputerDesktopIcon className="w-24 h-24 text-[#c9c6c5]/20" />
-                  </div>
-                  <div className="absolute inset-0 border border-[#c9c6c5]/20 pointer-events-none"></div>
-                </div>
-              </div>
-            </div>
-            <div className="lg:col-span-7 space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <span className="font-['Geist_Mono'] text-[12px] text-[#c9c6c5] uppercase tracking-widest">Role</span>
-                  <p className="font-['Geist_Mono'] text-[24px] font-semibold text-[#e2e1eb]">Aspiring Backend Developer</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="font-['Geist_Mono'] text-[12px] text-[#c9c6c5] uppercase tracking-widest">Specialization</span>
-                  <p className="font-['Geist_Mono'] text-[24px] font-semibold text-[#e2e1eb]">Software Engineering / Backend</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="font-['Geist_Mono'] text-[12px] text-[#c9c6c5] uppercase tracking-widest">Experience</span>
-                  <p className="font-['Geist_Mono'] text-[24px] font-semibold text-[#e2e1eb]">Seeking Internship</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="font-['Geist_Mono'] text-[12px] text-[#c9c6c5] uppercase tracking-widest">Location</span>
-                  <p className="font-['Geist_Mono'] text-[24px] font-semibold text-[#e2e1eb]">SLIIT / Sri Lanka</p>
-                </div>
-              </div>
-              <div className="pt-12 border-t border-[#444748]">
-                <span className="font-['Geist_Mono'] text-[12px] text-[#c9c6c5] uppercase tracking-widest block mb-6">Biography</span>
-                <p className="font-['Inter'] text-[18px] text-[#c4c7c7] leading-relaxed">
-                  I am a Computer Science student at SLIIT and a passionate Backend Developer with experience in Frontend technologies.
-                  I am dedicated to building efficient, scalable server-side logic and modern web applications. Currently, I am looking
-                  for internship opportunities to apply my technical skills and contribute to impactful software projects.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <About />
 
-      {/* Education Section */}
-      <section className="py-32 bg-[#0c0e14] border-y border-[#444748]" id="education">
-        <div className="max-w-[1440px] mx-auto px-[20px] md:px-[64px]">
-          <div className="flex items-start gap-12 mb-20">
-            <div className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] opacity-40">01_CERT</div>
-            <div>
-              <h2 className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] mb-4 tracking-[0.3em]">PROTOCOL_CERTIFICATION</h2>
-              <h3 className="font-['Geist_Mono'] text-[32px] font-semibold">Educational &amp; Regulatory Compliance</h3>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {certifications.map((cert, index) => (
-              <div key={index} className="border border-[#444748] bg-[#1a1b22] p-10 flex flex-col justify-between min-h-[320px] relative">
-                <div>
-                  <span className="text-[#c9c6c5] font-['Geist_Mono'] text-[14px] block mb-8">{cert.year}</span>
-                  <h4 className="font-['Geist_Mono'] text-[24px] font-semibold mb-4">{cert.title}</h4>
-                  <p className="text-[#c4c7c7] font-['Inter'] text-[16px]">{cert.issuer}</p>
-                </div>
-                <div className="pt-8 border-t border-[#444748] flex items-center gap-2 text-[#c9c6c5] font-['Geist_Mono'] text-[14px] uppercase tracking-tighter">
-                  {cert.status || cert.focus}
-                  {cert.status && <CheckBadgeIcon className="w-4 h-4" />}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Education id={"education"} certifications={certifications} />
 
       {/* Interests Section */}
-      <section className="py-32 bg-[#0c0e14] border-b border-[#444748]" id="interests">
-        <div className="max-w-[1440px] mx-auto px-[20px] md:px-[64px]">
-          <div className="flex items-start gap-12 mb-20">
-            <div className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] opacity-40">01.5_INT</div>
-            <div>
-              <h2 className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] mb-4 tracking-[0.3em]">AREAS_OF_INTEREST</h2>
-              <h3 className="font-['Geist_Mono'] text-[32px] font-semibold">Specialized Domains &amp; Research</h3>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#444748] border border-[#444748]">
-            {interests.map((item) => (
-              <div key={item.id} className="bg-[#0c0e14] p-10 hover:bg-[#1a1b22] transition-colors group">
-                <div className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] mb-6">{item.id}</div>
-                <h4 className="font-['Geist_Mono'] text-[24px] font-semibold mb-4">{item.title}</h4>
-                <p className="text-[#c4c7c7] font-['Inter'] text-[16px]">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Interests id={"interests"} interests={interests} />
 
       {/* Tech Stack Section */}
       <section className="py-32 bg-[#0c0e14] border-y border-[#444748] blueprint-grid" id="stack">
