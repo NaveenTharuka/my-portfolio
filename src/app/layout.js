@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata = {
-  title: 'System.Root - Backend Architect',
+  title: 'NaveenTharuka - Backend Architect',
   description: 'Building the invisible infrastructure',
 }
 
