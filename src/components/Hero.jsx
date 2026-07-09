@@ -1,6 +1,6 @@
 export default function Hero() {
     return (
-        <section className="relative min-h-screen flex items-center pt-20 blueprint-grid" id="home">
+        <section className="relative min-h-screen flex items-center blueprint-grid" id="home">
             <div className="relative z-10 max-w-[1440px] mx-auto px-[20px] md:px-[64px] w-full py-32">
                 <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-24">
                     <div className="lg:col-span-7">

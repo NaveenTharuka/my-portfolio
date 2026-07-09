@@ -6,21 +6,8 @@ import {
   CommandLineIcon,
   GlobeAltIcon,
   ServerIcon,
-  CubeIcon,
-  ComputerDesktopIcon,
-  RocketLaunchIcon,
-  BeakerIcon,
-  DocumentMagnifyingGlassIcon,
-  LinkIcon,
-  PlayCircleIcon,
-  CheckBadgeIcon,
-  ArrowTopRightOnSquareIcon,
   Squares2X2Icon,
   ViewfinderCircleIcon,
-  CloudIcon,
-  AcademicCapIcon,
-  ShieldCheckIcon,
-  CpuChipIcon,
   MusicalNoteIcon
 } from '@heroicons/react/24/outline'
 
@@ -72,18 +59,21 @@ export default function Home() {
 
   const certifications = [
     {
+      id: 1,
       year: '2023 - PRESENT',
       title: 'Certified Kubernetes Administrator (CKA)',
       issuer: 'Cloud Native Computing Foundation (CNCF)',
       status: 'Verified'
     },
     {
+      id: 2,
       year: '2019 - 2021',
       title: 'M.Sc. in Computer Science (Software Engineering)',
       issuer: 'Technical University of Berlin • GPA: 1.2 / 1.0',
       focus: 'Focus: Backend Architecture'
     },
     {
+      id: 3,
       year: '2015 - 2019',
       title: 'B.Sc. in Software Engineering',
       issuer: 'Stanford University • Honors Program',

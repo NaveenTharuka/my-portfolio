@@ -16,6 +16,7 @@ import {
     CpuChipIcon,
     MusicalNoteIcon
 } from '@heroicons/react/24/outline'
+import InterestCard from './InterestCard'
 
 export default function Interests({ id, interests }) {
     return (
@@ -30,11 +31,7 @@ export default function Interests({ id, interests }) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#444748] border border-[#444748]">
                     {interests.map((item) => (
-                        <div key={item.id} className="bg-[#0c0e14] p-10 hover:bg-[#1a1b22] transition-colors group">
-                            <div className="font-['Geist_Mono'] text-[14px] text-[#c9c6c5] mb-6">{item.id}</div>
-                            <h4 className="font-['Geist_Mono'] text-[24px] font-semibold mb-4">{item.title}</h4>
-                            <p className="text-[#c4c7c7] font-['Inter'] text-[16px]">{item.desc}</p>
-                        </div>
+                        <InterestCard key={item.id} item={item} />
                     ))}
                 </div>
             </div>
