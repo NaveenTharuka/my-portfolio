@@ -1,6 +1,8 @@
 import styles from './Header.module.css'
+import { useRouter } from 'next/navigation';
 
 export default function AdminHeader() {
+    const router = useRouter();
     return (
         <header className={styles.header}>
             <div className={styles.headerLeft}>

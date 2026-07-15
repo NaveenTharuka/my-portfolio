@@ -1,0 +1,821 @@
+/* app/page.module.css */
+/* ===== Scanline ===== */
+.scanline {
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 238, 252, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    animation: scan 6s linear infinite;
+    z-index: 60;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ===== Header ===== */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 64px;
+    height: 64px;
+    background: rgba(18, 19, 26, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #444748;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.headerTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #e5e2e1;
+    letter-spacing: -0.04em;
+}
+
+.headerNav {
+    display: none;
+    gap: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+@media (min-width: 768px) {
+    .headerNav {
+        display: flex;
+    }
+}
+
+.navLink {
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-bottom: 4px;
+}
+
+.navLink:hover {
+    color: #00eefc;
+}
+
+.navActive {
+    color: #00eefc;
+    font-weight: 700;
+    border-bottom: 2px solid #00eefc;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: #292931;
+    border: 1px solid #444748;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #00eefc;
+}
+
+.settingsBtn {
+    background: none;
+    border: none;
+    color: #c5c7c2;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.settingsBtn:hover {
+    color: #00eefc;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #444748;
+    overflow: hidden;
+    background: #34343c;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    width: 256px;
+    display: none;
+    flex-direction: column;
+    padding: 32px 0;
+    background: #0d0e15;
+    border-right: 1px solid #444748;
+    z-index: 40;
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        display: flex;
+    }
+}
+
+.sidebarHeader {
+    padding: 0 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarBox {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #00eefc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 238, 252, 0.1);
+    color: #00eefc;
+}
+
+.userName {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e2e1;
+}
+
+.userId {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #c5c7c2;
+    opacity: 0.6;
+}
+
+.sidebarNav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sidebarNavLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 16px 24px;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebarNavLink:hover {
+    background: #1a1b22;
+}
+
+.sidebarNavLink:hover .material-symbols-outlined {
+    color: #00eefc;
+}
+
+.activeNav {
+    background: #34343c;
+    color: #00eefc;
+    border-left-color: #00eefc;
+}
+
+.activeNav .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.sidebarFooter {
+    padding: 0 24px;
+    margin-top: auto;
+}
+
+.execBtn {
+    width: 100%;
+    padding: 12px;
+    background: #e5e2e1;
+    color: #0d0e15;
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.execBtn:hover {
+    background: #00eefc;
+}
+
+.logoutWrapper {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #444748;
+}
+
+.logoutLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.logoutLink:hover {
+    color: #ffb4ab;
+}
+
+/* ===== Main Content ===== */
+.mainContent {
+    flex: 1;
+    padding-left: 0;
+    padding-top: 64px;
+    min-height: 100vh;
+    background-image:
+        linear-gradient(to right, rgba(68, 71, 72, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(68, 71, 72, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+@media (min-width: 1024px) {
+    .mainContent {
+        padding-left: 256px;
+    }
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 48px 32px;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding: 48px 64px;
+    }
+}
+
+/* ===== Breadcrumb ===== */
+.breadcrumb {
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+}
+
+.breadcrumbCyan {
+    color: #00eefc;
+}
+
+.breadcrumbSlash {
+    color: #444748;
+}
+
+.breadcrumbGray {
+    color: #c5c7c2;
+}
+
+/* ===== Grid ===== */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (min-width: 1280px) {
+    .grid {
+        grid-template-columns: 5fr 7fr;
+    }
+}
+
+/* ===== Form Section ===== */
+.gridLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.formCard {
+    padding: 32px;
+    border: 1px solid #444748;
+    background: #1a1b22;
+    position: relative;
+    overflow: hidden;
+}
+
+.accentBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #00eefc;
+}
+
+.formHeading {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #e3e1ec;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #c5c7c2;
+    transition: color 0.2s;
+}
+
+.input {
+    width: 100%;
+    background: #0d0e15;
+    border: 1px solid #444748;
+    color: #e3e1ec;
+    font-family: 'Space Mono', monospace;
+    padding: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-size: 14px;
+}
+
+.input:focus {
+    border-color: #00eefc;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.stackWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tagContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.tag {
+    padding: 4px 12px;
+    border: 1px solid #444748;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #c5c7c2;
+    background: #12131a;
+}
+
+.tagRemove {
+    background: none;
+    border: none;
+    color: #c5c7c2;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.tagRemove:hover {
+    color: #ffb4ab;
+}
+
+.repoWrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.repoPrefix {
+    background: #34343c;
+    border: 1px solid #444748;
+    border-right: none;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    color: #c5c7c2;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.repoWrapper .input {
+    border-left: none;
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 16px;
+    background: #e5e2e1;
+    color: #12131a;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.submitBtn:hover {
+    background: #00eefc;
+}
+
+/* ===== Diagnostics ===== */
+.diagnostics {
+    padding: 24px;
+    border: 1px solid #444748;
+    background: #0d0e15;
+    opacity: 0.6;
+}
+
+.diagRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.diagLabel {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #00eefc;
+    text-transform: uppercase;
+}
+
+.diagLatency {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #c5c7c2;
+}
+
+.progressBar {
+    width: 100%;
+    height: 4px;
+    background: #34343c;
+}
+
+.progressFill {
+    height: 100%;
+    width: 98.4%;
+    background: #00eefc;
+    animation: pulse 2s infinite;
+}
+
+/* ===== Interest List ===== */
+.gridRight {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.listHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+}
+
+.listTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #e3e1ec;
+    text-transform: uppercase;
+}
+
+.listCount {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #c5c7c2;
+}
+
+/* ===== Interest Card ===== */
+.interestCard {
+    padding: 24px;
+    border: 1px solid #444748;
+    background: #0d0e15;
+    transition: all 0.3s;
+}
+
+.interestCard:hover {
+    border-color: #00eefc;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #e3e1ec;
+    transition: color 0.3s;
+}
+
+.interestCard:hover .cardTitle {
+    color: #00eefc;
+}
+
+.cardDescription {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #c5c7c2;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.cardActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editBtn,
+.deleteBtn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #444748;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    color: #c5c7c2;
+}
+
+.editBtn:hover {
+    background: #34343c;
+    color: #00eefc;
+}
+
+.deleteBtn:hover {
+    background: #93000a;
+    color: #ffb4ab;
+}
+
+.cardTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 24px;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #444748;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #c5c7c2;
+}
+
+.repoLink {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.repoLink:hover {
+    color: #00eefc;
+}
+
+.repoLink .material-symbols-outlined {
+    font-size: 14px;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 32px 0;
+}
+
+.paginationBtn {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #444748;
+    background: transparent;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #c5c7c2;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.paginationBtn:hover:not(:disabled) {
+    color: #00eefc;
+}
+
+.paginationBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.pageNumbers {
+    display: flex;
+    gap: 4px;
+}
+
+.pageNumber {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #444748;
+    background: transparent;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #c5c7c2;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pageNumber:hover {
+    background: #34343c;
+}
+
+.activePage {
+    border-color: #00eefc;
+    background: #00eefc;
+    color: #0d0e15;
+}
+
+/* ===== Footer ===== */
+.footer {
+    padding-left: 0;
+    height: 48px;
+    border-top: 1px solid #444748;
+    background: #0d0e15;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #c5c7c2;
+}
+
+@media (min-width: 1024px) {
+    .footer {
+        padding-left: 256px;
+        padding-right: 64px;
+    }
+}
+
+.footerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.statusIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00eefc;
+    animation: pulse 2s infinite;
+}
+
+.footerRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footerTime {
+    opacity: 0.4;
+}
+
+.region {
+    color: #00eefc;
+}
+
+/* ===== Toast ===== */
+.terminalToast {
+    position: fixed;
+    bottom: 96px;
+    right: 32px;
+    z-index: 100;
+    transform: translateY(128px);
+    transition: transform 0.5s;
+}
+
+.toastVisible {
+    transform: translateY(0);
+}
+
+.toastContent {
+    background: #00eefc;
+    color: #0d0e15;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.toastContent span:first-child {
+    font-size: 24px;
+}
