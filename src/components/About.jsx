@@ -17,8 +17,8 @@ export default function About() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
                     <div className="lg:col-span-5">
                         <div className="border border-[#444748] bg-[#1a1b22] p-4 overflow-hidden">
-                            <div className="aspect-[4/5] bg-[#0c0e14] relative group">
-                                <div className="w-full h-full bg-gradient-to-br from-[#282a31] to-[#0c0e14] flex items-center justify-center">
+                            <div className="aspect-4/5 bg-[#0c0e14] relative group">
+                                <div className="w-full h-full bg-linear-to-br from-[#282a31] to-[#0c0e14] flex items-center justify-center">
                                     <ComputerDesktopIcon className="w-24 h-24 text-[#c9c6c5]/20" />
                                 </div>
                                 <div className="absolute inset-0 border border-[#c9c6c5]/20 pointer-events-none"></div>

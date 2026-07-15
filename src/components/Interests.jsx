@@ -1,21 +1,3 @@
-import {
-    CubeIcon,
-    ComputerDesktopIcon,
-    RocketLaunchIcon,
-    BeakerIcon,
-    DocumentMagnifyingGlassIcon,
-    LinkIcon,
-    PlayCircleIcon,
-    CheckBadgeIcon,
-    ArrowTopRightOnSquareIcon,
-    Squares2X2Icon,
-    ViewfinderCircleIcon,
-    CloudIcon,
-    AcademicCapIcon,
-    ShieldCheckIcon,
-    CpuChipIcon,
-    MusicalNoteIcon
-} from '@heroicons/react/24/outline'
 import InterestCard from './InterestCard'
 
 export default function Interests({ id, interests }) {

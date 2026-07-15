@@ -8,7 +8,8 @@ export default function ProjectCard({ project }) {
         <div className={`grid grid-cols-1 lg:grid-cols-12 gap-16 items-center ${project.reverse ? 'lg:flex-row-reverse' : ''}`}>
             {/* Image/Icon side */}
             <div className={`${project.reverse ? 'lg:col-span-7 lg:order-2' : 'lg:col-span-7'} group overflow-hidden border border-[#444748] bg-[#1a1b22] aspect-video flex items-center justify-center`}>
-                <project.icon className="w-24 h-24 text-[#c9c6c5]/20" />
+                {/* <project.icon className="w-24 h-24 text-[#c9c6c5]/20" /> */}
+                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
             </div>
             {/* Content side */}
             <div className={`${project.reverse ? 'lg:col-span-5 lg:order-1' : 'lg:col-span-5'}`}>
