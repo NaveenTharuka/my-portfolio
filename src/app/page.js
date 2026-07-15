@@ -20,13 +20,32 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 
+
+import { getProjects } from '../../services/projects.api'
+import { getInterests } from '../../services/interests.api'
+
 // Alternative icon for GameController - using MusicalNoteIcon or you can use CpuChipIcon
 const GameControllerIcon = MusicalNoteIcon
 
 export default function Home() {
+  const [projects, setProjects] = useState([])
+  const [interests, setInterests] = useState([])
+  const [loading, setLoading] = useState(true)
+
   const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
+    async function fetchdata() {
+      const projects = await getProjects()
+      setProjects(projects)
+
+      const interests = await getInterests()
+      setInterests(interests)
+    }
+    fetchdata()
+
+    setLoading(false)
+
     const handleScroll = () => {
       const sections = ['home', 'identity', 'education', 'interests', 'stack', 'projects']
       let current = 'home'
@@ -81,14 +100,14 @@ export default function Home() {
     }
   ]
 
-  const interests = [
-    { id: '01', title: 'Full Stack Development', desc: 'Building complete web applications from user interfaces to backend systems.' },
-    { id: '02', title: 'Backend Engineering', desc: 'Designing APIs, databases, and scalable server-side solutions.' },
-    { id: '03', title: 'Cybersecurity', desc: 'Highly interested in cybersecurity; completed the Introduction to Cybersecurity course by Cisco Labs. Implementing secure coding practices and protecting digital infrastructures.' },
-    { id: '04', title: 'Game Development', desc: 'Creating immersive experiences with Unity and C# for high-performance real-time rendering and logic.' },
-    { id: '05', title: 'Software Architecture', desc: 'Designing resilient, scalable, and maintainable system blueprints.' },
-    { id: '06', title: 'Emerging Technologies', desc: 'Exploring the frontier of computing, from edge networks to decentralized systems.' }
-  ]
+  // const interests = [
+  //   { id: '01', title: 'Full Stack Development', desc: 'Building complete web applications from user interfaces to backend systems.' },
+  //   { id: '02', title: 'Backend Engineering', desc: 'Designing APIs, databases, and scalable server-side solutions.' },
+  //   { id: '03', title: 'Cybersecurity', desc: 'Highly interested in cybersecurity; completed the Introduction to Cybersecurity course by Cisco Labs. Implementing secure coding practices and protecting digital infrastructures.' },
+  //   { id: '04', title: 'Game Development', desc: 'Creating immersive experiences with Unity and C# for high-performance real-time rendering and logic.' },
+  //   { id: '05', title: 'Software Architecture', desc: 'Designing resilient, scalable, and maintainable system blueprints.' },
+  //   { id: '06', title: 'Emerging Technologies', desc: 'Exploring the frontier of computing, from edge networks to decentralized systems.' }
+  // ]
 
   const techStack = [
     {
@@ -111,42 +130,47 @@ export default function Home() {
     }
   ]
 
-  const projects = [
-    {
-      title: 'Zombie Survival Game',
-      category: 'Game Development',
-      tech: 'UNITY',
-      description: 'Advanced AI pathfinding and immersive atmospheric lighting implemented in a high-stakes survival environment.',
-      tags: ['C#', 'Unity', 'AI'],
-      icon: GameControllerIcon
-    },
-    {
-      title: 'Blind Assistance Smart Glasses',
-      category: 'Computer Vision',
-      tech: 'REAL-TIME',
-      description: 'Computer vision system for real-time obstacle detection, providing spatial awareness for the visually impaired.',
-      tags: ['Python', 'OpenCV', 'IoT'],
-      icon: ViewfinderCircleIcon,
-      reverse: true
-    },
-    {
-      title: 'Modern Portfolio Engine',
-      category: 'Web Framework',
-      tech: 'CORE',
-      description: 'The high-performance framework behind this site, optimized for speed and cinematic UI interactions.',
-      tags: ['React', 'Tailwind', 'Vite'],
-      icon: GlobeAltIcon
-    },
-    {
-      title: 'Full Stack Web Application',
-      category: 'Enterprise SaaS',
-      tech: 'SECURE',
-      description: 'Secure, scalable enterprise dashboard with real-time data synchronization and advanced user permissions.',
-      tags: ['Node.js', 'MongoDB', 'Express'],
-      icon: ServerIcon,
-      reverse: true
-    }
-  ]
+  // const projects = [
+  //   {
+  //     title: 'Zombie Survival Game',
+  //     category: 'Game Development',
+  //     tech: 'UNITY',
+  //     description: 'Advanced AI pathfinding and immersive atmospheric lighting implemented in a high-stakes survival environment.',
+  //     tags: ['C#', 'Unity', 'AI'],
+  //     icon: GameControllerIcon
+  //   },
+  //   {
+  //     title: 'Blind Assistance Smart Glasses',
+  //     category: 'Computer Vision',
+  //     tech: 'REAL-TIME',
+  //     description: 'Computer vision system for real-time obstacle detection, providing spatial awareness for the visually impaired.',
+  //     tags: ['Python', 'OpenCV', 'IoT'],
+  //     icon: ViewfinderCircleIcon,
+  //     reverse: true
+  //   },
+  //   {
+  //     title: 'Modern Portfolio Engine',
+  //     category: 'Web Framework',
+  //     tech: 'CORE',
+  //     description: 'The high-performance framework behind this site, optimized for speed and cinematic UI interactions.',
+  //     tags: ['React', 'Tailwind', 'Vite'],
+  //     icon: GlobeAltIcon
+  //   },
+  //   {
+  //     title: 'Full Stack Web Application',
+  //     category: 'Enterprise SaaS',
+  //     tech: 'SECURE',
+  //     description: 'Secure, scalable enterprise dashboard with real-time data synchronization and advanced user permissions.',
+  //     tags: ['Node.js', 'MongoDB', 'Express'],
+  //     icon: ServerIcon,
+  //     reverse: true
+  //   }
+  // ]
+
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>

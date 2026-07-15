@@ -1,11 +1,12 @@
 import api from "./base.api";
 
-export const addProject = (data) => {
+export const addProject = async (data) => {
     try {
-        const res = api.post("/project/create", data)
-        return res.data
+        const res = await api.post("/project/create", data)
+        alert("project added successfully")
+        return res
     } catch (err) {
-        console.log("Error adding project :", err)
+        alert("Failed to add project")
         throw err
     }
 }
