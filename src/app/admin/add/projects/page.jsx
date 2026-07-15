@@ -1,88 +1,147 @@
 // app/page.js
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './projects.module.css';
-
-import { CodeBracketIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import SideBar from '../../components/AdminSideBar';
 import AdminHeader from '../../components/Header';
 import AdminProjectCard from '../../components/AdminProjectsCard';
+import { addProject, getProjects, deleteProject } from '../../../../../services/projects.api';
 
 export default function Home() {
-
-    const router = useRouter()
-
-    const [projects, setProjects] = useState([
-        {
-            id: 1,
-            title: 'NEURAL_NET_V4',
-            description: 'Autonomous routing optimization protocol.',
-            stack: ['PYTHON', 'PYTORCH', 'DOCKER'],
-            repo: 'github.com/root/neural',
-            lastUpdated: '2023.10.12',
-            status: 'active',
-        },
-        {
-            id: 2,
-            title: 'QUANTUM_SECURE_API',
-            description: 'End-to-end encryption with post-quantum standards.',
-            stack: ['GO', 'GRPC', 'TLS_1.3'],
-            repo: 'github.com/root/quantum',
-            lastUpdated: '2023.10.05',
-            status: 'active',
-        },
-        {
-            id: 3,
-            title: 'CORE_OS_WATCHDOG',
-            description: 'Monitoring system for kernel-level exceptions.',
-            stack: ['C++', 'LINUX_KERNEL'],
-            repo: 'github.com/root/watchdog',
-            lastUpdated: '2023.10.01',
-            status: 'critical',
-        },
-    ]);
-
+    const router = useRouter();
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
+    const [editingId, setEditingId] = useState(null);
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        repo: '',
+        category: '',
+        github: '',
+        image: '',
+        tags: []
     });
-    const [tags, setTags] = useState([]);
-    const [stackInput, setStackInput] = useState('');
+
+    const [tagInput, setTagInput] = useState('');
+    const [techInput, setTechInput] = useState('');
+    const [techTags, setTechTags] = useState([]);
 
     const projectsPerPage = 3;
     const pageCount = Math.ceil(projects.length / projectsPerPage);
-
     const currentProjects = projects.slice(
         currentPage * projectsPerPage,
         (currentPage + 1) * projectsPerPage
     );
 
-    const handleAddProject = (e) => {
+    // Fetch projects on mount
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    const fetchProjects = async () => {
+        try {
+            setLoading(true);
+            const data = await getProjects();
+            setProjects(data);
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleAddProject = async (e) => {
         e.preventDefault();
         if (!formData.title.trim()) return;
 
         const newProject = {
-            id: Date.now(),
             title: formData.title.trim(),
             description: formData.description.trim() || 'No description provided.',
-            stack: tags.length ? tags : ['N/A'],
-            repo: formData.repo.trim() || 'github.com/root/repo',
-            lastUpdated: new Date().toISOString().split('T')[0].replace(/-/g, '.'),
-            status: 'active',
+            category: formData.category.trim() || 'Uncategorized',
+            tech: techTags.length ? techTags : ['N/A'],
+            image: formData.image.trim() || 'default-image-url',
+            github: formData.github.trim() || 'github.com/root/repo',
+            tags: formData.tags.length ? formData.tags : ['N/A']
         };
 
-        setProjects([newProject, ...projects]);
-        setFormData({ title: '', description: '', repo: '' });
-        setTags([]);
-        setStackInput('');
-        setCurrentPage(0);
+        try {
+            const created = await addProject(newProject);
+            console.log()
+            resetForm();
+            setCurrentPage(0);
+        } catch (error) {
+            console.error('Error adding project:', error);
+            alert('FAILED_TO_ADD_PROJECT');
+        }
     };
 
-    const handleDelete = (id) => {
-        setProjects(projects.filter(p => p.id !== id));
+    const handleUpdateProject = async (e) => {
+        e.preventDefault();
+        if (!formData.title.trim()) return;
+
+        const updatedProject = {
+            title: formData.title.trim(),
+            description: formData.description.trim() || 'No description provided.',
+            category: formData.category.trim() || 'Uncategorized',
+            tech: techTags.length ? techTags : ['N/A'],
+            image: formData.image.trim() || 'default-image-url',
+            github: formData.github.trim() || 'github.com/root/repo',
+            tags: formData.tags.length ? formData.tags : ['N/A']
+        };
+
+        try {
+            const updated = await updateProject(editingId, updatedProject);
+            setProjects(projects.map(p => p.id === editingId ? updated : p));
+            resetForm();
+            setEditingId(null);
+        } catch (error) {
+            console.error('Error updating project:', error);
+            alert('FAILED_TO_UPDATE_PROJECT');
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('CONFIRM_DELETE_NODE?')) {
+            try {
+                await deleteProject(id);
+                setProjects(projects.filter(p => p.id !== id));
+            } catch (error) {
+                console.error('Error deleting project:', error);
+                alert('FAILED_TO_DELETE_PROJECT');
+            }
+        }
+    };
+
+    const handleEdit = (project) => {
+        setEditingId(project.id);
+        setFormData({
+            title: project.title || '',
+            description: project.description || '',
+            category: project.category || '',
+            github: project.github || '',
+            image: project.image || '',
+            tags: project.tags || []
+        });
+        setTechTags(project.tech || []);
+        setTagInput('');
+        setTechInput('');
+    };
+
+    const resetForm = () => {
+        setFormData({
+            title: '',
+            description: '',
+            category: '',
+            github: '',
+            image: '',
+            tags: []
+        });
+        setTechTags([]);
+        setTagInput('');
+        setTechInput('');
+        setEditingId(null);
     };
 
     const handleChange = (e) => {
@@ -90,17 +149,47 @@ export default function Home() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleStackKeyDown = (e) => {
-        if (e.key === 'Enter' && stackInput.trim()) {
+    const handleTagKeyDown = (e) => {
+        if (e.key === 'Enter' && tagInput.trim()) {
             e.preventDefault();
-            setTags(prev => [...prev, stackInput.trim().toUpperCase()]);
-            setStackInput('');
+            if (!formData.tags.includes(tagInput.trim())) {
+                setFormData(prev => ({
+                    ...prev,
+                    tags: [...prev.tags, tagInput.trim()]
+                }));
+            }
+            setTagInput('');
         }
     };
 
-    const removeTag = (tagToRemove) => {
-        setTags(prev => prev.filter(tag => tag !== tagToRemove));
+    const handleTechKeyDown = (e) => {
+        if (e.key === 'Enter' && techInput.trim()) {
+            e.preventDefault();
+            if (!techTags.includes(techInput.trim())) {
+                setTechTags([...techTags, techInput.trim()]);
+            }
+            setTechInput('');
+        }
     };
+
+    const removeTag = (tagToRemove, type) => {
+        if (type === 'tech') {
+            setTechTags(prev => prev.filter(tag => tag !== tagToRemove));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                tags: prev.tags.filter(tag => tag !== tagToRemove)
+            }));
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className={styles.loadingContainer}>
+                <div className={styles.loadingText}>LOADING_PROJECTS...</div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -128,17 +217,30 @@ export default function Home() {
                                 <div className={styles.accentBar}></div>
                                 <h2 className={styles.formHeading}>
                                     <span className="material-symbols-outlined">add_box</span>
-                                    INITIALIZE_NEW_PROJECT
+                                    {editingId ? 'UPDATE_PROJECT' : 'INITIALIZE_NEW_PROJECT'}
                                 </h2>
-                                <form className={styles.form} onSubmit={handleAddProject}>
+                                <form className={styles.form} onSubmit={editingId ? handleUpdateProject : handleAddProject}>
                                     <div className={styles.field}>
                                         <label className={styles.label}>// project_title</label>
                                         <input
                                             className={styles.input}
-                                            placeholder="ARCHIVE_01_GENESIS"
+                                            placeholder="E-Commerce Web"
                                             type="text"
                                             name="title"
                                             value={formData.title}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className={styles.field}>
+                                        <label className={styles.label}>// project_category</label>
+                                        <input
+                                            className={styles.input}
+                                            placeholder="Full-Stack"
+                                            type="text"
+                                            name="category"
+                                            value={formData.category}
                                             onChange={handleChange}
                                             required
                                         />
@@ -161,20 +263,20 @@ export default function Home() {
                                         <div className={styles.stackWrapper}>
                                             <input
                                                 className={styles.input}
-                                                placeholder="React, Rust, WebGL..."
+                                                placeholder="React, Springboot, PostgreSQL..."
                                                 type="text"
-                                                value={stackInput}
-                                                onChange={(e) => setStackInput(e.target.value)}
-                                                onKeyDown={handleStackKeyDown}
+                                                value={techInput}
+                                                onChange={(e) => setTechInput(e.target.value)}
+                                                onKeyDown={handleTechKeyDown}
                                             />
                                             <div className={styles.tagContainer}>
-                                                {tags.map(tag => (
+                                                {techTags.map(tag => (
                                                     <span key={tag} className={styles.tag}>
                                                         {tag}
                                                         <button
                                                             type="button"
                                                             className={styles.tagRemove}
-                                                            onClick={() => removeTag(tag)}
+                                                            onClick={() => removeTag(tag, 'tech')}
                                                         >
                                                             ×
                                                         </button>
@@ -185,24 +287,75 @@ export default function Home() {
                                     </div>
 
                                     <div className={styles.field}>
-                                        <label className={styles.label}>// repository_link</label>
+                                        <label className={styles.label}>// tags</label>
+                                        <div className={styles.stackWrapper}>
+                                            <input
+                                                className={styles.input}
+                                                placeholder="springboot, reactjs, postgre..."
+                                                type="text"
+                                                value={tagInput}
+                                                onChange={(e) => setTagInput(e.target.value)}
+                                                onKeyDown={handleTagKeyDown}
+                                            />
+                                            <div className={styles.tagContainer}>
+                                                {formData.tags.map(tag => (
+                                                    <span key={tag} className={styles.tag}>
+                                                        {tag}
+                                                        <button
+                                                            type="button"
+                                                            className={styles.tagRemove}
+                                                            onClick={() => removeTag(tag, 'tag')}
+                                                        >
+                                                            ×
+                                                        </button>
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.field}>
+                                        <label className={styles.label}>// github_repository</label>
                                         <div className={styles.repoWrapper}>
                                             <span className={styles.repoPrefix}>https://</span>
                                             <input
                                                 className={styles.input}
-                                                placeholder="github.com/root/repo"
+                                                placeholder="github.com/username/repo"
                                                 type="text"
-                                                name="repo"
-                                                value={formData.repo}
+                                                name="github"
+                                                value={formData.github}
                                                 onChange={handleChange}
                                             />
                                         </div>
                                     </div>
 
-                                    <button className={styles.submitBtn} type="submit">
-                                        <span className="material-symbols-outlined">bolt</span>
-                                        EXECUTE_DEPLOYMENT
-                                    </button>
+                                    <div className={styles.field}>
+                                        <label className={styles.label}>// image_url</label>
+                                        <input
+                                            className={styles.input}
+                                            placeholder="https://example.com/image.png"
+                                            type="text"
+                                            name="image"
+                                            value={formData.image}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+
+                                    <div className={styles.buttonGroup}>
+                                        <button className={styles.submitBtn} type="submit">
+                                            <span className="material-symbols-outlined">bolt</span>
+                                            {editingId ? 'UPDATE_DEPLOYMENT' : 'EXECUTE_DEPLOYMENT'}
+                                        </button>
+                                        {editingId && (
+                                            <button
+                                                type="button"
+                                                className={styles.cancelBtn}
+                                                onClick={resetForm}
+                                            >
+                                                CANCEL
+                                            </button>
+                                        )}
+                                    </div>
                                 </form>
                             </div>
 
@@ -225,7 +378,12 @@ export default function Home() {
                             </div>
 
                             {currentProjects.map((project) => (
-                                <AdminProjectCard key={project.id} project={project} />
+                                <AdminProjectCard
+                                    key={project.id}
+                                    project={project}
+                                    onEdit={() => handleEdit(project)}
+                                    onDelete={() => handleDelete(project.id)}
+                                />
                             ))}
 
                             <div className={styles.pagination}>
