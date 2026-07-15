@@ -1,0 +1,126 @@
+/* ===== Sidebar Styles ===== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    width: 256px;
+    display: none;
+    flex-direction: column;
+    padding: 32px 0;
+    background: #0d0e15;
+    border-right: 1px solid #444748;
+    z-index: 40;
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        display: flex;
+    }
+}
+
+.sidebarHeader {
+    padding: 0 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarBox {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #00eefc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00eefc;
+}
+
+.userName {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e2e1;
+}
+
+.userId {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #c5c7c2;
+    opacity: 0.6;
+}
+
+.sidebarNav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 16px 24px;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.navLink:hover {
+    background: #1a1b22;
+}
+
+.activeNav {
+    background: #34343c;
+    color: #00eefc;
+    border-left-color: #00eefc;
+}
+
+.sidebarFooter {
+    padding: 0 24px;
+    margin-top: auto;
+}
+
+.execBtn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #444748;
+    color: #e5e2e1;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.execBtn:hover {
+    background: #e5e2e1;
+    color: #0d0e15;
+}
+
+.logoutWrapper {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #444748;
+}
+
+.logoutLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.logoutLink:hover {
+    color: #ffb4ab;
+}

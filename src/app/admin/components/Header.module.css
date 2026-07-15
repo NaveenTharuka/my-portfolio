@@ -1,0 +1,101 @@
+/* ===== Header Styles ===== */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 64px;
+    height: 64px;
+    background: rgba(18, 19, 26, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #444748;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.headerTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #e5e2e1;
+    letter-spacing: -0.04em;
+    cursor: pointer;
+}
+
+.headerNav {
+    display: none;
+    gap: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+@media (min-width: 768px) {
+    .headerNav {
+        display: flex;
+    }
+}
+
+.headerNav a {
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.headerNav a:hover {
+    color: #00eefc;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: #292931;
+    border: 1px solid #444748;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #00eefc;
+}
+
+.settingsBtn {
+    background: none;
+    border: none;
+    color: #c5c7c2;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.settingsBtn:hover {
+    color: #00eefc;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #444748;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

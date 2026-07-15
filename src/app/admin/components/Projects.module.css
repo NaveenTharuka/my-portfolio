@@ -1,0 +1,128 @@
+/* ===== Project Card Styles ===== */
+.projectCard {
+    padding: 24px;
+    border: 1px solid #444748;
+    background: #1a1b22;
+    transition: all 0.3s;
+}
+
+.projectCard:hover {
+    border-color: #00eefc;
+}
+
+.criticalCard {
+    border-color: #93000a;
+}
+
+.criticalCard:hover {
+    border-color: #ffb4ab;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #e3e1ec;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.projectCard:hover .cardTitle {
+    color: #00eefc;
+}
+
+.criticalTitle {
+    color: #ffb4ab;
+}
+
+.warningIcon {
+    font-size: 18px;
+    animation: pulse 2s infinite;
+}
+
+.cardDescription {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #c5c7c2;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.cardActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editBtn,
+.deleteBtn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #444748;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    color: #c5c7c2;
+}
+
+.editBtn:hover {
+    background: #34343c;
+    color: #00eefc;
+}
+
+.deleteBtn:hover {
+    background: #93000a;
+    color: #ffb4ab;
+}
+
+.cardTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 24px;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #444748;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #c5c7c2;
+}
+
+.criticalStatus {
+    color: #ffb4ab;
+}
+
+.repoLink {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #c5c7c2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.repoLink:hover {
+    color: #00eefc;
+}
+
+.repoLink .material-symbols-outlined {
+    font-size: 14px;
+}
