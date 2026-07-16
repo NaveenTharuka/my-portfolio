@@ -1,0 +1,131 @@
+/* AdminInterestCard.module.css */
+
+.card {
+    padding: 1.5rem;
+    border: 1px solid var(--outline-muted, #444748);
+    background-color: var(--surface-container-lowest, #0c0e14);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--terminal-cyan, #00eefc);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.cardTitle {
+    font-family: 'Geist', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--primary, #e5e2e1);
+    transition: color 0.3s ease;
+}
+
+.card:hover .cardTitle {
+    color: var(--terminal-cyan, #00eefc);
+}
+
+.cardDescription {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--on-surface-variant, #c5c7c2);
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editButton,
+.deleteButton {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--outline-muted, #444748);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--on-surface-variant, #c5c7c2);
+}
+
+.editButton:hover {
+    background-color: var(--surface-variant, #34343c);
+    color: var(--terminal-cyan, #00eefc);
+}
+
+.deleteButton:hover {
+    background-color: var(--error-container, #93000a);
+    color: var(--error, #ffb4ab);
+}
+
+.editButton .material-symbols-outlined,
+.deleteButton .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--outline-muted, #444748);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--on-surface-variant, #c5c7c2);
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--on-surface-variant, #c5c7c2);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--outline-muted, #444748);
+    padding-top: 1rem;
+}
+
+.repoLink {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--on-surface-variant, #c5c7c2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.repoLink:hover {
+    color: var(--terminal-cyan, #00eefc);
+}
+
+.repoLink .material-symbols-outlined {
+    font-size: 14px;
+}
+
+/* CSS Variables (these should match your theme) */
+:root {
+    --outline-muted: #444748;
+    --surface-container-lowest: #0c0e14;
+    --terminal-cyan: #00eefc;
+    --primary: #e5e2e1;
+    --on-surface-variant: #c5c7c2;
+    --surface-variant: #34343c;
+    --error-container: #93000a;
+    --error: #ffb4ab;
+}

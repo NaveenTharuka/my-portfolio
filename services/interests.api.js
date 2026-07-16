@@ -10,21 +10,25 @@ export const getInterests = async () => {
     }
 }
 
-export const addInterest = (data) => {
+export const addInterest = async (data) => {
     try {
-        const res = api.post("/interest/create", data)
+        const res = await api.post("/interest/create", data)
+        alert("Interest added successfully")
         return res.data
     } catch (err) {
+        alert("Failed to add interest")
         console.log("Error adding interest :", err)
         throw err
     }
 }
 
-export const deleteInterest = (id) => {
+export const deleteInterest = async (id) => {
     try {
-        const res = api.delete(`/interest/${id}`)
+        const res = await api.delete(`/interest/delete/${id}`)
+        alert("Interest deleted successfully")
         return res.data
     } catch (err) {
+        alert("Failed to delete interest")
         console.log("Error deleting interest :", err)
         throw err
     }

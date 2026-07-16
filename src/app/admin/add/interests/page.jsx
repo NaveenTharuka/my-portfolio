@@ -1,35 +1,22 @@
 // app/page.js
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './interest.module.css';
 import SideBar from '../../components/AdminSideBar';
 import AdminHeader from '../../components/Header';
+import AdminInterestCard from '../../components/AdminInterestCard';
+import { addInterest, deleteInterest, getInterests } from '../../../../../services/interests.api';
 
 export default function Home() {
-    const [interests, setInterests] = useState([
-        {
-            id: '8829-X-01',
-            title: 'Full Stack Development',
-            description: 'End-to-end architecting of complex web ecosystems focusing on high-concurrency Node.js environments.',
-            active: false
-        },
-        {
-            id: '8829-X-02',
-            title: 'Backend Engineering',
-            description: 'Optimizing distributed databases, microservices orchestration, and low-latency communication.',
-            active: false
-        },
-        {
-            id: '8829-X-03',
-            title: 'AI & Machine Learning',
-            description: 'Implementation of large language models for autonomous agent workflows and predictive diagnostics.',
-            active: false
-        },
-    ]);
+    const router = useRouter();
+    const [interests, setInterests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [refreshKey, setRefreshKey] = useState(0); // Add refresh key
 
     const [formData, setFormData] = useState({
         title: '',
-        description: ''
+        desc: ''
     });
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -40,24 +27,55 @@ export default function Home() {
         (currentPage + 1) * interestsPerPage
     );
 
-    const handleSubmit = (e) => {
+    // Fetch function
+    const fetchInterests = async () => {
+        setLoading(true);
+        try {
+            const data = await getInterests();
+            setInterests(data);
+        } catch (error) {
+            console.error('Error fetching interests:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Fetch on mount and when refreshKey changes
+    useEffect(() => {
+        fetchInterests();
+    }, [refreshKey]); // Add refreshKey as dependency
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.title.trim()) return;
 
-        const newInterest = {
-            id: `8829-X-${String(interests.length + 1).padStart(2, '0')}`,
-            title: formData.title.trim(),
-            description: formData.description.trim() || 'No description provided.',
-            active: false,
-        };
+        try {
+            const newInterest = {
+                title: formData.title.trim(),
+                desc: formData.desc.trim() || 'No desc provided.',
+            };
+            await addInterest(newInterest);
+            setFormData({ title: '', desc: '' });
 
-        setInterests([...interests, newInterest]);
-        setFormData({ title: '', description: '' });
-        setCurrentPage(0);
+            // Trigger re-fetch
+            setRefreshKey(prev => prev + 1);
+            // OR use router.refresh()
+            router.refresh();
+        } catch (error) {
+            console.error('Error adding interest:', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        setInterests(interests.filter(item => item.id !== id));
+    const handleDelete = async (id) => {
+        try {
+            await deleteInterest(id);
+            // Trigger re-fetch
+            setRefreshKey(prev => prev + 1);
+            // OR use router.refresh()
+            router.refresh();
+        } catch (error) {
+            console.error('Error deleting interest:', error);
+        }
     };
 
     const handleChange = (e) => {
@@ -65,17 +83,9 @@ export default function Home() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleTagKeyDown = (e) => {
-        if (e.key === 'Enter' && tagInput.trim()) {
-            e.preventDefault();
-            setTags(prev => [...prev, tagInput.trim().toUpperCase()]);
-            setTagInput('');
-        }
-    };
-
-    const removeTag = (tagToRemove) => {
-        setTags(prev => prev.filter(tag => tag !== tagToRemove));
-    };
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>
@@ -120,13 +130,13 @@ export default function Home() {
                                     </div>
 
                                     <div className={styles.field}>
-                                        <label className={styles.label}>// payload_description</label>
+                                        <label className={styles.label}>// payload_desc</label>
                                         <textarea
                                             className={`${styles.input} ${styles.textarea}`}
                                             placeholder="Define core focus objectives..."
                                             rows="3"
-                                            name="description"
-                                            value={formData.description}
+                                            name="desc"
+                                            value={formData.desc}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -157,33 +167,7 @@ export default function Home() {
                             </div>
 
                             {currentInterests.map((interest) => (
-                                <div key={interest.id} className={styles.interestCard}>
-                                    <div className={styles.cardHeader}>
-                                        <div>
-                                            <h3 className={styles.cardTitle}>{interest.title}</h3>
-                                            <p className={styles.cardDescription}>// {interest.description}</p>
-                                        </div>
-                                        <div className={styles.cardActions}>
-                                            <button className={styles.editBtn}>
-                                                <span className="material-symbols-outlined">edit</span>
-                                            </button>
-                                            <button
-                                                className={styles.deleteBtn}
-                                                onClick={() => handleDelete(interest.id)}
-                                            >
-                                                <span className="material-symbols-outlined">delete</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.cardFooter}>
-                                        <span>NODE_UID: {interest.id}</span>
-                                        <a href="#" className={styles.repoLink}>
-                                            REPOSITORY_LINK
-                                            <span className="material-symbols-outlined">open_in_new</span>
-                                        </a>
-                                    </div>
-                                </div>
+                                <AdminInterestCard key={interest.id} interest={interest} onDelete={() => handleDelete(interest.id)} />
                             ))}
 
                             <div className={styles.pagination}>
