@@ -14,7 +14,7 @@ const AdminInterestCard = ({
             <div className={styles.cardHeader}>
                 <div>
                     <h3 className={styles.cardTitle}>{interest.title}</h3>
-                    <p className={styles.cardDescription}>// {interest.desc}</p>
+                    <p className={styles.cardDescription}>// {interest.description}</p>
                 </div>
                 <div className={styles.actionButtons}>
                     <button className={styles.editButton} onClick={onEdit} title="Edit">

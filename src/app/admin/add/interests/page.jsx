@@ -7,22 +7,23 @@ import SideBar from '../../components/AdminSideBar';
 import AdminHeader from '../../components/Header';
 import AdminInterestCard from '../../components/AdminInterestCard';
 import { addInterest, deleteInterest, getInterests } from '../../../../../services/interests.api';
+import AdminLoader from '../../components/AdminLoader';
 
 export default function Home() {
     const router = useRouter();
     const [interests, setInterests] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [refreshKey, setRefreshKey] = useState(0); // Add refresh key
+    const [currentPage, setCurrentPage] = useState(0);
+    const [projectSending, setProjectSending] = useState(false)
 
     const [formData, setFormData] = useState({
         title: '',
-        desc: ''
+        description: ''
     });
-    const [currentPage, setCurrentPage] = useState(0);
 
     const interestsPerPage = 3;
-    const pageCount = Math.ceil(interests.length / interestsPerPage);
-    const currentInterests = interests.slice(
+    const pageCount = Math.ceil((interests?.length || 0) / interestsPerPage);
+    const currentInterests = (interests || []).slice(
         currentPage * interestsPerPage,
         (currentPage + 1) * interestsPerPage
     );
@@ -32,49 +33,62 @@ export default function Home() {
         setLoading(true);
         try {
             const data = await getInterests();
-            setInterests(data);
+            setInterests(data || []);
         } catch (error) {
             console.error('Error fetching interests:', error);
+            setInterests([]);
         } finally {
             setLoading(false);
         }
     };
 
-    // Fetch on mount and when refreshKey changes
+    // Fetch on mount
     useEffect(() => {
         fetchInterests();
-    }, [refreshKey]); // Add refreshKey as dependency
+    }, []);
 
     const handleSubmit = async (e) => {
+        setProjectSending(true)
         e.preventDefault();
-        if (!formData.title.trim()) return;
+        if (!formData.title?.trim()) return;
 
         try {
             const newInterest = {
                 title: formData.title.trim(),
-                desc: formData.desc.trim() || 'No desc provided.',
+                description: formData.description?.trim() || 'No desc provided.',
             };
             await addInterest(newInterest);
-            setFormData({ title: '', desc: '' });
+            setFormData({ title: '', description: '' });
 
-            // Trigger re-fetch
-            setRefreshKey(prev => prev + 1);
-            // OR use router.refresh()
-            router.refresh();
+            // Refresh the list
+            await fetchInterests();
+
+            // Go to the last page to see the new item
+            setCurrentPage(Math.floor(interests.length / interestsPerPage));
         } catch (error) {
             console.error('Error adding interest:', error);
+            alert('Failed to add interest');
+        } finally {
+            setProjectSending(false)
         }
     };
 
     const handleDelete = async (id) => {
+        if (!window.confirm('Delete this interest?')) return;
+
         try {
             await deleteInterest(id);
-            // Trigger re-fetch
-            setRefreshKey(prev => prev + 1);
-            // OR use router.refresh()
-            router.refresh();
+            // Refresh the list
+            await fetchInterests();
+
+            // Adjust pagination if needed
+            const newTotal = interests.length - 1;
+            if (currentPage >= Math.ceil(newTotal / interestsPerPage)) {
+                setCurrentPage(Math.max(0, Math.ceil(newTotal / interestsPerPage) - 1));
+            }
         } catch (error) {
             console.error('Error deleting interest:', error);
+            alert('Failed to delete interest');
         }
     };
 
@@ -84,7 +98,11 @@ export default function Home() {
     };
 
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <div className={styles.loadingContainer}>
+                <AdminLoader text={"LOADING_INTERESTS"} />
+            </div>
+        );
     }
 
     return (
@@ -135,15 +153,15 @@ export default function Home() {
                                             className={`${styles.input} ${styles.textarea}`}
                                             placeholder="Define core focus objectives..."
                                             rows="3"
-                                            name="desc"
-                                            value={formData.desc}
+                                            name="description"
+                                            value={formData.description}
                                             onChange={handleChange}
                                         />
                                     </div>
 
-                                    <button className={styles.submitBtn} type="submit">
+                                    <button className={styles.submitBtn} type="submit" disabled={projectSending}>
                                         <span className="material-symbols-outlined">bolt</span>
-                                        EXECUTE_INITIALIZATION
+                                        {projectSending ? 'INITIALIZING...' : 'EXECUTE_INITIALIZATION'}
                                     </button>
                                 </form>
                             </div>
@@ -163,45 +181,54 @@ export default function Home() {
                         <div className={styles.gridRight}>
                             <div className={styles.listHeader}>
                                 <h2 className={styles.listTitle}>INTERESTS_CORE</h2>
-                                <span className={styles.listCount}>TOTAL_NODES: {String(interests.length).padStart(2, '0')}</span>
+                                <span className={styles.listCount}>TOTAL_NODES: {String(interests?.length || 0).padStart(2, '0')}</span>
                             </div>
 
-                            {currentInterests.map((interest) => (
-                                <AdminInterestCard key={interest.id} interest={interest} onDelete={() => handleDelete(interest.id)} />
-                            ))}
+                            {currentInterests.length > 0 ? (
+                                currentInterests.map((interest) => (
+                                    <AdminInterestCard
+                                        key={interest.id}
+                                        interest={interest}
+                                        onDelete={() => handleDelete(interest.id)}
+                                    />
+                                ))
+                            ) : (
+                                <div className={styles.noInterests}>NO_INTERESTS_FOUND</div>
+                            )}
 
-                            <div className={styles.pagination}>
-                                <button
-                                    className={styles.paginationBtn}
-                                    onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                                    disabled={currentPage === 0}
-                                >
-                                    PREV_NODE
-                                </button>
-                                <div className={styles.pageNumbers}>
-                                    {Array.from({ length: pageCount }, (_, i) => (
-                                        <button
-                                            key={i}
-                                            className={`${styles.pageNumber} ${i === currentPage ? styles.activePage : ''}`}
-                                            onClick={() => setCurrentPage(i)}
-                                        >
-                                            {String(i + 1).padStart(2, '0')}
-                                        </button>
-                                    ))}
+                            {pageCount > 1 && (
+                                <div className={styles.pagination}>
+                                    <button
+                                        className={styles.paginationBtn}
+                                        onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                                        disabled={currentPage === 0}
+                                    >
+                                        PREV_NODE
+                                    </button>
+                                    <div className={styles.pageNumbers}>
+                                        {Array.from({ length: pageCount }, (_, i) => (
+                                            <button
+                                                key={i}
+                                                className={`${styles.pageNumber} ${i === currentPage ? styles.activePage : ''}`}
+                                                onClick={() => setCurrentPage(i)}
+                                            >
+                                                {String(i + 1).padStart(2, '0')}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className={styles.paginationBtn}
+                                        onClick={() => setCurrentPage(Math.min(pageCount - 1, currentPage + 1))}
+                                        disabled={currentPage === pageCount - 1}
+                                    >
+                                        NEXT_NODE
+                                    </button>
                                 </div>
-                                <button
-                                    className={styles.paginationBtn}
-                                    onClick={() => setCurrentPage(Math.min(pageCount - 1, currentPage + 1))}
-                                    disabled={currentPage === pageCount - 1}
-                                >
-                                    NEXT_NODE
-                                </button>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </main>
-
         </>
     );
 }

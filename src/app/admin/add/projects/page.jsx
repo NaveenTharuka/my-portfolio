@@ -7,11 +7,13 @@ import SideBar from '../../components/AdminSideBar';
 import AdminHeader from '../../components/Header';
 import AdminProjectCard from '../../components/AdminProjectsCard';
 import { addProject, getProjects, deleteProject } from '../../../../../services/projects.api';
+import AdminLoader from '../../components/AdminLoader';
 
 export default function Home() {
     const router = useRouter();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isDeploying, setIsDeploying] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [editingId, setEditingId] = useState(null);
 
@@ -52,6 +54,7 @@ export default function Home() {
     };
 
     const handleAddProject = async (e) => {
+        setIsDeploying(true)
         e.preventDefault();
         if (!formData.title.trim()) return;
 
@@ -75,6 +78,8 @@ export default function Home() {
         } catch (error) {
             console.error('Error adding project:', error);
             alert('FAILED_TO_ADD_PROJECT');
+        } finally {
+            setIsDeploying(false)
         }
     };
 
@@ -171,7 +176,7 @@ export default function Home() {
     if (loading) {
         return (
             <div className={styles.loadingContainer}>
-                <div className={styles.loadingText}>LOADING_PROJECTS...</div>
+                <AdminLoader text={"LOADING_PROJECTS"} />
             </div>
         );
     }
@@ -312,7 +317,8 @@ export default function Home() {
                                     <div className={styles.buttonGroup}>
                                         <button className={styles.submitBtn} type="submit">
                                             <span className="material-symbols-outlined">bolt</span>
-                                            {editingId ? 'UPDATE_DEPLOYMENT' : 'EXECUTE_DEPLOYMENT'}
+                                            {isDeploying ? "DEPLOYING..." : editingId ? 'UPDATE_DEPLOYMENT' : 'EXECUTE_DEPLOYMENT'}
+                                            {isDeploying && '...'}
                                         </button>
                                         {editingId && (
                                             <button
