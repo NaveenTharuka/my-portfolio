@@ -21,12 +21,11 @@ export default function Home() {
         category: '',
         github: '',
         image: '',
+        demo: '',
         tags: []
     });
 
     const [tagInput, setTagInput] = useState('');
-    const [techInput, setTechInput] = useState('');
-    const [techTags, setTechTags] = useState([]);
 
     const projectsPerPage = 3;
     const pageCount = Math.ceil(projects.length / projectsPerPage);
@@ -60,17 +59,19 @@ export default function Home() {
             title: formData.title.trim(),
             description: formData.description.trim() || 'No description provided.',
             category: formData.category.trim() || 'Uncategorized',
-            tech: techTags.length ? techTags : ['N/A'],
-            image: formData.image.trim() || 'default-image-url',
-            github: formData.github.trim() || 'github.com/root/repo',
-            tags: formData.tags.length ? formData.tags : ['N/A']
+            image: formData.image.trim() || null,
+            github: formData.github.trim() || null,
+            tags: formData.tags.length ? formData.tags : ['N/A'],
+            demo_url: formData.demo.trim() || null
         };
+
+        console.log('Sending project:', newProject);
 
         try {
             const created = await addProject(newProject);
-            console.log()
+            setProjects([...projects, created]);
             resetForm();
-            setCurrentPage(0);
+            setCurrentPage(Math.floor(projects.length / projectsPerPage));
         } catch (error) {
             console.error('Error adding project:', error);
             alert('FAILED_TO_ADD_PROJECT');
@@ -85,21 +86,15 @@ export default function Home() {
             title: formData.title.trim(),
             description: formData.description.trim() || 'No description provided.',
             category: formData.category.trim() || 'Uncategorized',
-            tech: techTags.length ? techTags : ['N/A'],
-            image: formData.image.trim() || 'default-image-url',
-            github: formData.github.trim() || 'github.com/root/repo',
-            tags: formData.tags.length ? formData.tags : ['N/A']
+            image: formData.image.trim() || null,
+            github: formData.github.trim() || null,
+            tags: formData.tags.length ? formData.tags : ['N/A'],
+            demo_url: formData.demo.trim() || null
         };
 
-        try {
-            const updated = await updateProject(editingId, updatedProject);
-            setProjects(projects.map(p => p.id === editingId ? updated : p));
-            resetForm();
-            setEditingId(null);
-        } catch (error) {
-            console.error('Error updating project:', error);
-            alert('FAILED_TO_UPDATE_PROJECT');
-        }
+        console.log('Update project:', editingId, updatedProject);
+        resetForm();
+        setEditingId(null);
     };
 
     const handleDelete = async (id) => {
@@ -107,6 +102,9 @@ export default function Home() {
             try {
                 await deleteProject(id);
                 setProjects(projects.filter(p => p.id !== id));
+                if (currentPage >= Math.ceil((projects.length - 1) / projectsPerPage)) {
+                    setCurrentPage(Math.max(0, Math.ceil((projects.length - 1) / projectsPerPage) - 1));
+                }
             } catch (error) {
                 console.error('Error deleting project:', error);
                 alert('FAILED_TO_DELETE_PROJECT');
@@ -116,17 +114,19 @@ export default function Home() {
 
     const handleEdit = (project) => {
         setEditingId(project.id);
+        // Ensure tags is an array
+        const tags = Array.isArray(project.tags) ? project.tags : [];
+
         setFormData({
             title: project.title || '',
             description: project.description || '',
             category: project.category || '',
             github: project.github || '',
             image: project.image || '',
-            tags: project.tags || []
+            demo: project.demo_url || '',
+            tags: tags
         });
-        setTechTags(project.tech || []);
         setTagInput('');
-        setTechInput('');
     };
 
     const resetForm = () => {
@@ -136,11 +136,10 @@ export default function Home() {
             category: '',
             github: '',
             image: '',
+            demo: '',
             tags: []
         });
-        setTechTags([]);
         setTagInput('');
-        setTechInput('');
         setEditingId(null);
     };
 
@@ -162,25 +161,11 @@ export default function Home() {
         }
     };
 
-    const handleTechKeyDown = (e) => {
-        if (e.key === 'Enter' && techInput.trim()) {
-            e.preventDefault();
-            if (!techTags.includes(techInput.trim())) {
-                setTechTags([...techTags, techInput.trim()]);
-            }
-            setTechInput('');
-        }
-    };
-
-    const removeTag = (tagToRemove, type) => {
-        if (type === 'tech') {
-            setTechTags(prev => prev.filter(tag => tag !== tagToRemove));
-        } else {
-            setFormData(prev => ({
-                ...prev,
-                tags: prev.tags.filter(tag => tag !== tagToRemove)
-            }));
-        }
+    const removeTag = (tagToRemove) => {
+        setFormData(prev => ({
+            ...prev,
+            tags: prev.tags.filter(tag => tag !== tagToRemove)
+        }));
     };
 
     if (loading) {
@@ -259,52 +244,24 @@ export default function Home() {
                                     </div>
 
                                     <div className={styles.field}>
-                                        <label className={styles.label}>// technical_stack</label>
-                                        <div className={styles.stackWrapper}>
-                                            <input
-                                                className={styles.input}
-                                                placeholder="React, Springboot, PostgreSQL..."
-                                                type="text"
-                                                value={techInput}
-                                                onChange={(e) => setTechInput(e.target.value)}
-                                                onKeyDown={handleTechKeyDown}
-                                            />
-                                            <div className={styles.tagContainer}>
-                                                {techTags.map(tag => (
-                                                    <span key={tag} className={styles.tag}>
-                                                        {tag}
-                                                        <button
-                                                            type="button"
-                                                            className={styles.tagRemove}
-                                                            onClick={() => removeTag(tag, 'tech')}
-                                                        >
-                                                            ×
-                                                        </button>
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.field}>
                                         <label className={styles.label}>// tags</label>
                                         <div className={styles.stackWrapper}>
                                             <input
                                                 className={styles.input}
-                                                placeholder="springboot, reactjs, postgre..."
+                                                placeholder="react, nodejs, mongodb..."
                                                 type="text"
                                                 value={tagInput}
                                                 onChange={(e) => setTagInput(e.target.value)}
                                                 onKeyDown={handleTagKeyDown}
                                             />
                                             <div className={styles.tagContainer}>
-                                                {formData.tags.map(tag => (
-                                                    <span key={tag} className={styles.tag}>
+                                                {formData.tags.map((tag, index) => (
+                                                    <span key={`tag-${tag}-${index}`} className={styles.tag}>
                                                         {tag}
                                                         <button
                                                             type="button"
                                                             className={styles.tagRemove}
-                                                            onClick={() => removeTag(tag, 'tag')}
+                                                            onClick={() => removeTag(tag)}
                                                         >
                                                             ×
                                                         </button>
@@ -317,10 +274,9 @@ export default function Home() {
                                     <div className={styles.field}>
                                         <label className={styles.label}>// github_repository</label>
                                         <div className={styles.repoWrapper}>
-                                            <span className={styles.repoPrefix}>https://</span>
                                             <input
                                                 className={styles.input}
-                                                placeholder="github.com/username/repo"
+                                                placeholder="https://github.com/username/repo"
                                                 type="text"
                                                 name="github"
                                                 value={formData.github}
@@ -337,6 +293,18 @@ export default function Home() {
                                             type="text"
                                             name="image"
                                             value={formData.image}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+
+                                    <div className={styles.field}>
+                                        <label className={styles.label}>// demo_url</label>
+                                        <input
+                                            className={styles.input}
+                                            placeholder="https://project-name.vercel.app"
+                                            type="text"
+                                            name="demo"
+                                            value={formData.demo}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -377,14 +345,16 @@ export default function Home() {
                                 <span className={styles.listCount}>TOTAL_NODES: {projects.length}</span>
                             </div>
 
-                            {currentProjects.map((project) => (
+                            {currentProjects.length > 0 ? currentProjects.map((project) => (
                                 <AdminProjectCard
                                     key={project.id}
                                     project={project}
                                     onEdit={() => handleEdit(project)}
                                     onDelete={() => handleDelete(project.id)}
                                 />
-                            ))}
+                            )) : (
+                                <div className={styles.noProjects}>NO_PROJECTS_FOUND</div>
+                            )}
 
                             <div className={styles.pagination}>
                                 <button
@@ -397,7 +367,7 @@ export default function Home() {
                                 <div className={styles.pageNumbers}>
                                     {Array.from({ length: pageCount }, (_, i) => (
                                         <button
-                                            key={i}
+                                            key={`page-${i}`}
                                             className={`${styles.pageNumber} ${i === currentPage ? styles.activePage : ''}`}
                                             onClick={() => setCurrentPage(i)}
                                         >
@@ -417,22 +387,6 @@ export default function Home() {
                     </div>
                 </div>
             </main>
-
-            {/* Footer */}
-            <footer className={styles.footer}>
-                <div className={styles.footerLeft}>
-                    <span className={styles.statusIndicator}>
-                        <span className={styles.statusDot}></span>
-                        UPLINK_STABLE
-                    </span>
-                    <span>OS: SHADOW_KERNEL_V2.1</span>
-                    <span>MEMORY: 14.4GB / 64GB</span>
-                </div>
-                <div className={styles.footerRight}>
-                    <span className={styles.footerTime}>UTC: 2023.10.27_14:32:01</span>
-                    <span className={styles.region}>REGION: US_EAST_01</span>
-                </div>
-            </footer>
         </>
     );
 }

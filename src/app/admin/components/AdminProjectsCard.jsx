@@ -48,23 +48,6 @@ export default function AdminProjectCard({ project, onEdit, onDelete }) {
 
             <div className={styles.section}>
                 <div>
-                    <p className={styles.sectionLabel}>// tech_array</p>
-                    <div className={styles.tagsContainer}>
-                        {techStack.length > 0 ? (
-                            techStack.map((tech, index) => (
-                                <span key={index} className={styles.techTag}>
-                                    {tech.toUpperCase()}
-                                </span>
-                            ))
-                        ) : (
-                            <span className={styles.emptyTag}>NO_TECH_SPECIFIED</span>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            <div className={styles.section}>
-                <div>
                     <p className={styles.sectionLabel}>// tags</p>
                     <div className={styles.tagsContainer}>
                         {tags.length > 0 ? (
