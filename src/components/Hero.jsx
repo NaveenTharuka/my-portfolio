@@ -10,10 +10,10 @@ export default function Hero() {
                         <div className="mb-4 sm:mb-6 md:mb-8 font-['Geist_Mono'] text-[11px] sm:text-[12px] md:text-[14px] text-[#c9c6c5] tracking-widest uppercase">
                 // Aspiring Backend Architect
                         </div>
-                        <h1 className="font-['Geist_Mono'] text-[36px] xs:text-[44px] sm:text-[56px] md:text-[90px] lg:text-[120px] leading-[1] sm:leading-[0.95] md:leading-[0.9] font-bold uppercase tracking-tight sm:tracking-tighter mb-6 sm:mb-8 md:mb-16 break-words">
+                        <h1 className="font-['Geist_Mono'] text-[36px] xs:text-[44px] sm:text-[56px] md:text-[90px] lg:text-[120px] leading-[1] sm:leading-[0.95] md:leading-[0.9] font-bold uppercase tracking-tight sm:tracking-tighter mb-6 sm:mb-8 md:mb-16">
                             <span className="block text-[#e2e1eb]">Building the</span>
                             <span className="block text-[#e2e1eb]/30">Invisible</span>
-                            <span className="block text-[#e2e1eb]">Infrastructure.</span>
+                            <span className="block text-[#e2e1eb] whitespace-nowrap">Infrastructure.</span>
                         </h1>
                         <div className="flex flex-col md:flex-row items-start md:items-center gap-5 sm:gap-8 md:gap-12">
                             <button className="w-full md:w-auto bg-[#c9c6c5] text-[#0c0e14] px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 font-['Geist_Mono'] text-[12px] sm:text-[13px] md:text-[14px] font-bold uppercase tracking-widest hover:bg-white transition-all">
