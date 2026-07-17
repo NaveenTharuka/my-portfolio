@@ -4,10 +4,7 @@ import { useState, useEffect } from 'react'
 import {
   CodeBracketIcon,
   CommandLineIcon,
-  GlobeAltIcon,
-  ServerIcon,
   Squares2X2Icon,
-  ViewfinderCircleIcon,
   MusicalNoteIcon
 } from '@heroicons/react/24/outline'
 
@@ -20,7 +17,7 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 
-
+import { Analytics } from "@vercel/analytics/next"
 import { getProjects } from '../../services/projects.api'
 import { getInterests } from '../../services/interests.api'
 
@@ -197,6 +194,8 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+
+      <Analytics />
     </>
   )
 }
