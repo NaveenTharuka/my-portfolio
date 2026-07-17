@@ -76,24 +76,24 @@ export default function Home() {
   const certifications = [
     {
       id: 1,
-      year: '2023 - PRESENT',
-      title: 'Certified Kubernetes Administrator (CKA)',
-      issuer: 'Cloud Native Computing Foundation (CNCF)',
-      status: 'Verified'
-    },
-    {
-      id: 2,
-      year: '2019 - 2021',
-      title: 'M.Sc. in Computer Science (Software Engineering)',
-      issuer: 'Technical University of Berlin • GPA: 1.2 / 1.0',
+      year: '2024 - PRESENT',
+      title: 'BSc. in Computer Science',
+      issuer: 'Sri Lanka Institue of Informaiton Technology',
       focus: 'Focus: Backend Architecture'
     },
     {
+      id: 2,
+      year: '2019',
+      title: 'GCE Ordinary Level (O/L)',
+      issuer: 'At Embilipitiya Royal College',
+      status: 'Completed'
+    },
+    {
       id: 3,
-      year: '2015 - 2019',
-      title: 'B.Sc. in Software Engineering',
-      issuer: 'Stanford University • Honors Program',
-      focus: 'Magna Cum Laude'
+      year: '2020 - 2023',
+      title: 'GCE Advanced Level (A/L)',
+      issuer: 'At Embilipitiya Udagama Maha Vidyalaya',
+      focus: 'Focus: Physics, Chemistry & C. Mathematics'
     }
   ]
 
@@ -111,19 +111,19 @@ export default function Home() {
       icon: CodeBracketIcon,
       title: 'Languages',
       desc: 'Core programming languages for systems and application logic.',
-      tags: ['Java', 'C#', 'Python', 'JavaScript', 'SQL']
+      tags: ['Java', 'C#(Beginner)', 'Python', 'JavaScript', 'SQL']
     },
     {
       icon: Squares2X2Icon,
       title: 'Web & Fullstack',
       desc: 'Modern frontend frameworks and scalable backend runtimes.',
-      tags: ['React', 'Node.js', 'Express', 'HTML/CSS']
+      tags: ['React', 'Next.JS', 'SpringBoot', 'HTML/CSS', 'FastAPI']
     },
     {
       icon: CommandLineIcon,
       title: 'Data & Environment',
       desc: 'Persistence layers and development environments.',
-      tags: ['MySQL', 'MongoDB', 'Unity', 'Git', 'VS Code']
+      tags: ['MySQL', 'Supabase', 'Unity', 'Git', 'VS Code', 'PostgreSQL', 'Vercel', 'Render']
     }
   ]
 

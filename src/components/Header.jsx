@@ -7,7 +7,7 @@ export default function Header({ activeSection, navLinks }) {
                 <div className="font-['Geist_Mono'] text-[14px] font-bold tracking-[0.3em] text-[#c9c6c5]">
                     <span className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-[#c9c6c5] rounded-full"></span>
-                        SYSTEM.ROOT
+                        NAVEEN_THARUKA
                     </span>
                 </div>
                 <nav className="hidden md:flex items-center gap-12 font-['Geist_Mono'] text-[14px] uppercase tracking-wider">

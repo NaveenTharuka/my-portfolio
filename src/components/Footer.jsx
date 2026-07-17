@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Footer() {
     return (
         <footer className="bg-[#0c0e14] border-t border-[#444748] py-12 sm:py-16 md:py-24">
@@ -12,14 +14,13 @@ export default function Footer() {
                         </p>
                     </div>
                     <div className="flex flex-col md:items-end gap-6 font-['Geist_Mono'] text-[14px] uppercase tracking-widest">
-                        <a href="#" className="text-[#c4c7c7] hover:text-[#c9c6c5] transition-colors">GitHub Repository</a>
-                        <a href="#" className="text-[#c4c7c7] hover:text-[#c9c6c5] transition-colors">LinkedIn Profile</a>
-                        <a href="#" className="text-[#c4c7c7] hover:text-[#c9c6c5] transition-colors">System Documentation</a>
+                        <Link href="https://github.com/NaveenTharuka" target="_blank" rel="noopener noreferrer" className="text-[#c4c7c7] hover:text-[#c9c6c5] transition-colors">GitHub Repository</Link>
+                        <Link href="https://www.linkedin.com/in/naveen-jayawardana" target="_blank" rel="noopener noreferrer" className="text-[#c4c7c7] hover:text-[#c9c6c5] transition-colors">LinkedIn Profile</Link>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-[#444748] gap-8">
                     <div className="font-['Geist_Mono'] text-[11px] text-[#c4c7c7] uppercase tracking-[0.3em]">
-                        © 2024 SYSTEM.ROOT // V2.0.4
+                        © 2026 SYSTEM.ROOT // V2.0.4
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-[#c9c6c5] rounded-full"></span>
