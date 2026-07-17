@@ -33,15 +33,20 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchdata() {
-      const projects = await getProjects()
-      setProjects(projects)
+      setLoading(true)
+      const result1 = await getProjects()
 
-      const interests = await getInterests()
-      setInterests(interests)
+      if (result1) {
+        setProjects(result1)
+      }
+
+      const result2 = await getInterests()
+      if (result2) {
+        setInterests(result2)
+      }
+      setLoading(false)
     }
     fetchdata()
-
-    setLoading(false)
 
     const handleScroll = () => {
       const sections = ['home', 'identity', 'education', 'interests', 'stack', 'projects']
