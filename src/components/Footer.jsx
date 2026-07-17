@@ -1,8 +1,8 @@
 export default function Footer() {
     return (
-        <footer className="bg-[#0c0e14] border-t border-[#444748] py-24">
-            <div className="max-w-[1440px] mx-auto px-[20px] md:px-[64px]">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
+        <footer className="bg-[#0c0e14] border-t border-[#444748] py-12 sm:py-16 md:py-24">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-[20px] md:px-[64px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 mb-12 sm:mb-16 md:mb-20">
                     <div>
                         <div className="font-['Geist_Mono'] text-[14px] font-bold tracking-[0.3em] text-[#c9c6c5] mb-10">
                             SYSTEM.ROOT // SOFTWARE BACKEND ENGINEER
