@@ -1,0 +1,247 @@
+/*
+  Tokens below are pulled directly from the tailwind.config in the source page.
+  Scoped as CSS variables on .section so this component doesn't depend on the
+  Tailwind CDN script or a matching tailwind.config.js.
+*/
+.section {
+    --primary: #c9c6c5;
+    --secondary-container: #00eefc;
+    --on-secondary-container: #00686f;
+    --surface-container-lowest: #0c0e14;
+    --surface-container-low: #1a1b22;
+    --on-surface-variant: #c4c7c7;
+    --outline-variant: #444748;
+
+    --font-display: 'Geist', sans-serif;
+    --font-label: 'Space Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+
+    position: relative;
+    overflow: hidden;
+    padding: 128px 0;
+    background: var(--surface-container-lowest);
+    border-top: 1px solid var(--outline-variant);
+    color: var(--on-surface-variant);
+}
+
+/* Faint blueprint grid backdrop */
+.blueprintGrid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--outline-variant) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--outline-variant) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 64px;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    .infoColumn {
+        grid-column: span 5;
+    }
+
+    .formColumn {
+        grid-column: span 7;
+    }
+}
+
+/* Left column: copy */
+.sectionNumber {
+    font-family: var(--font-label);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: var(--primary);
+    margin-bottom: 32px;
+}
+
+.heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+@media (min-width: 768px) {
+    .heading {
+        font-size: 80px;
+    }
+}
+
+.description {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--on-surface-variant);
+    max-width: 24rem;
+}
+
+.statusRow {
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--primary);
+    font-family: var(--font-label);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.statusLine {
+    width: 32px;
+    height: 1px;
+    background: var(--primary);
+}
+
+/* Right column: form card */
+.formCard {
+    border: 1px solid var(--outline-variant);
+    background: color-mix(in srgb, var(--surface-container-low) 50%, transparent);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 0 60px rgba(0, 238, 252, 0.04);
+    padding: 32px;
+}
+
+@media (min-width: 768px) {
+    .formCard {
+        padding: 48px;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+@media (min-width: 768px) {
+    .row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.label {
+    display: block;
+    font-family: var(--font-label);
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--primary);
+}
+
+.input,
+.textarea {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--outline-variant);
+    border-radius: 0;
+    padding: 14px 16px;
+    font-family: var(--font-label);
+    font-size: 14px;
+    color: #ffffff;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: color-mix(in srgb, var(--on-surface-variant) 30%, transparent);
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: var(--secondary-container);
+}
+
+.textarea {
+    resize: none;
+}
+
+.submitRow {
+    padding-top: 24px;
+}
+
+.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    border: none;
+    border-radius: 0;
+    background: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 24px 48px;
+    font-family: var(--font-label);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+    background: #ffffff;
+}
+
+.button:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.buttonIcon {
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) .buttonIcon {
+    transform: translateX(8px);
+}

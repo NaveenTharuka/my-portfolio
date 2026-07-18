@@ -20,6 +20,7 @@ import Hero from '@/components/Hero'
 import { Analytics } from "@vercel/analytics/next"
 import { getProjects } from '../../services/projects.api'
 import { getInterests } from '../../services/interests.api'
+import Contact from '@/components/Contact'
 
 // Alternative icon for GameController - using MusicalNoteIcon or you can use CpuChipIcon
 const GameControllerIcon = MusicalNoteIcon
@@ -196,6 +197,9 @@ export default function Home() {
 
       {/* Projects Section */}
       <Projects id={"projects"} projects={projects} />
+
+      {/* Contact Form */}
+      <Contact />
 
       {/* Footer */}
       <Footer />
