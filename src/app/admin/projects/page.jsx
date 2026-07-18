@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import { useRouter } from 'next/navigation';
-import SideBar from '../../components/AdminSideBar';
-import AdminHeader from '../../components/Header';
-import AdminProjectCard from '../../components/AdminProjectsCard';
-import { addProject, getProjects, deleteProject } from '../../../../../services/projects.api';
-import AdminLoader from '../../components/AdminLoader';
+import SideBar from '../components/AdminSideBar';
+import AdminHeader from '../components/Header';
+import AdminProjectCard from '../components/AdminProjectsCard';
+import { addProject, getProjects, deleteProject } from '../../../../services/projects.api';
+import AdminLoader from '../components/AdminLoader';
 
 export default function Home() {
     const router = useRouter();

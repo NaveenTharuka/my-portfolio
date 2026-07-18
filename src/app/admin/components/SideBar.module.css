@@ -1,16 +1,18 @@
-/* ===== Sidebar Styles ===== */
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
 .sidebar {
     position: fixed;
     left: 0;
-    top: 64px;
+    top: 4rem;
     bottom: 0;
-    width: 256px;
+    width: 16rem;
     display: none;
     flex-direction: column;
-    padding: 32px 0;
-    background: #0d0e15;
-    border-right: 1px solid #444748;
-    z-index: 40;
+    padding: 2rem 0;
+    background: var(--surface-container-lowest);
+    border-right: 1px solid var(--outline-muted);
 }
 
 @media (min-width: 1024px) {
@@ -19,108 +21,121 @@
     }
 }
 
-.sidebarHeader {
-    padding: 0 24px;
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.sidebarBrand {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.avatarBox {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #00eefc;
+.sidebarBrandRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebarBrandIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--surface-variant);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #00eefc;
+    border: 1px solid rgba(0, 238, 252, 0.3);
 }
 
-.userName {
-    font-family: 'Geist', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #e5e2e1;
+.sidebarBrandIcon .material-symbols-outlined {
+    color: var(--terminal-cyan);
 }
 
-.userId {
-    font-family: 'Space Mono', monospace;
+.sidebarBrandTitle {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--primary);
+    line-height: 1;
+    margin: 0;
+}
+
+.sidebarBrandId {
+    font-family: var(--font-terminal-code);
     font-size: 10px;
-    color: #c5c7c2;
-    opacity: 0.6;
+    color: var(--on-surface-variant);
+    margin-top: 0.25rem;
 }
 
 .sidebarNav {
     flex: 1;
     display: flex;
     flex-direction: column;
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    gap: 0.25rem;
 }
 
-.navLink {
+.sidebarNavItem {
+    font-family: var(--font-terminal-code);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-surface-variant);
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    transition: background 0.15s ease;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 16px 24px;
-    color: #c5c7c2;
-    text-decoration: none;
-    transition: all 0.2s;
-    border-left: 3px solid transparent;
+    gap: 0.75rem;
+    border-left: 4px solid transparent;
 }
 
-.navLink:hover {
-    background: #1a1b22;
+.sidebarNavItem:hover {
+    background: var(--surface-container-high);
 }
 
-.activeNav {
-    background: #34343c;
-    color: #00eefc;
-    border-left-color: #00eefc;
+.sidebarNavItemActive {
+    composes: sidebarNavItem;
+    background: var(--surface-variant);
+    color: var(--terminal-cyan);
+    border-left: 4px solid var(--terminal-cyan);
 }
 
-.sidebarFooter {
-    padding: 0 24px;
+.sidebarBottom {
+    padding: 0 1.5rem;
     margin-top: auto;
 }
 
-.execBtn {
+.initButton {
     width: 100%;
-    padding: 12px;
+    padding: 1rem;
     background: transparent;
-    border: 1px solid #444748;
-    color: #e5e2e1;
-    font-family: 'Space Mono', monospace;
+    border: 1px solid var(--terminal-cyan);
+    color: var(--terminal-cyan);
+    font-family: var(--font-terminal-code);
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.2em;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
-.execBtn:hover {
-    background: #e5e2e1;
-    color: #0d0e15;
+.initButton:hover {
+    background: var(--terminal-cyan);
+    color: var(--surface-lowest);
 }
 
-.logoutWrapper {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #444748;
-}
-
-.logoutLink {
+.logoutButton {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    color: #c5c7c2;
-    text-decoration: none;
-    transition: color 0.2s;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 0.75rem 0.5rem;
+    background: none;
+    border: none;
+    color: var(--on-surface-variant);
+    text-transform: uppercase;
+    font-family: var(--font-terminal-code);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
-.logoutLink:hover {
-    color: #ffb4ab;
+.logoutButton:hover {
+    color: var(--error);
 }

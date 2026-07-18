@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './interest.module.css';
-import SideBar from '../../components/AdminSideBar';
-import AdminHeader from '../../components/Header';
-import AdminInterestCard from '../../components/AdminInterestCard';
-import { addInterest, deleteInterest, getInterests } from '../../../../../services/interests.api';
-import AdminLoader from '../../components/AdminLoader';
+import SideBar from '../components/AdminSideBar';
+import AdminHeader from '../components/Header';
+import AdminInterestCard from '../components/AdminInterestCard';
+import { addInterest, deleteInterest, getInterests } from '../../../../services/interests.api';
+import AdminLoader from '../components/AdminLoader';
 
 export default function Home() {
     const router = useRouter();
