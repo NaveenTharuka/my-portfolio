@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import styles from './ContactSection.module.css';
+import { addResponse } from '../../services/contacts.api';
 
-const INITIAL_STATE = { name: '', email: '', message: '' };
+const INITIAL_STATE = { name: '', email: '', title: '', message: '' };
 
 export default function ContactSection() {
     const [formData, setFormData] = useState(INITIAL_STATE);
@@ -19,16 +20,12 @@ export default function ContactSection() {
         setStatus('sending');
 
         try {
-            const res = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            if (!res.ok) throw new Error('Request failed');
-
+            const res = await addResponse(formData);
             setStatus('sent');
-            setFormData(INITIAL_STATE);
+            setTimeout(() => {
+                setStatus('idle');
+                setFormData(INITIAL_STATE);
+            }, 2000);
         } catch (err) {
             console.error('Contact form submission failed:', err);
             setStatus('error');
@@ -105,6 +102,22 @@ export default function ContactSection() {
                                             className={styles.input}
                                         />
                                     </div>
+                                </div>
+
+                                <div className={styles.field}>
+                                    <label htmlFor="title" className={styles.label}>
+                                        PAYLOAD_TITLE
+                                    </label>
+                                    <input
+                                        id="title"
+                                        name="title"
+                                        type="text"
+                                        required
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        placeholder="// EMAIL@DOMAIN.COM"
+                                        className={styles.input}
+                                    />
                                 </div>
 
                                 <div className={styles.field}>

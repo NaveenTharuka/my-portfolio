@@ -5,81 +5,7 @@ import styles from "./Dashboard.module.css";
 import AdminHeader from "../components/Header";
 import SideBar from "../components/AdminSideBar";
 import AdminResponses from "../components/AdminResponses";
-
-// Sample data shaped exactly like the API response:
-// { id: uuid, name, email, title, message, created_at: ISO string, read }
-const INITIAL_TRANSMISSIONS = [
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e01",
-        name: "Sarah Chen",
-        email: "sarah.chen@stripe.com",
-        title: "Frontend Engineer — Payments Team",
-        message:
-            "Hi! I came across your portfolio while researching frontend engineers with strong design systems experience — the component library you built for your dashboard project is really clean. We have an opening on our Payments team for a Frontend Engineer, working closely with design on our merchant-facing tools. Would you be open to a 20-minute intro call this week to talk through the role?",
-        created_at: "2026-01-19T14:02:22",
-        read: false,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e02",
-        name: "Marcus Webb",
-        email: "marcus@fenwick.io",
-        title: "Founding Engineer — Full Stack",
-        message:
-            "Hey, saw your site linked from a mutual connection's LinkedIn. We're a 4-person team building workflow automation for logistics companies, just closed our seed round. Looking for a founding engineer comfortable across the stack — Next.js, Postgres, some infra. Equity-heavy comp, fully remote. Happy to send our deck if you're curious.",
-        created_at: "2026-01-19T09:45:11",
-        read: false,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e03",
-        name: "No-Reply Talent Network",
-        email: "noreply@talentbridge-solutions.com",
-        title: "Exciting Software Engineer Opportunities — Apply Now!",
-        message:
-            "Dear Candidate, our AI-powered talent matching system has identified your profile as a strong fit for multiple Software Engineer II/III openings at top-tier companies in your area. Salaries range from $130K-$220K. Click here to upload your resume and get matched instantly. This is an automated message, please do not reply directly.",
-        created_at: "2026-01-18T11:20:00",
-        read: true,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e04",
-        name: "Priya Nair",
-        email: "priya.nair@linear.app",
-        title: "Re: Your application — Product Engineer",
-        message:
-            "Thanks again for applying and for the thoughtful walkthrough of your project during the take-home review. The team enjoyed discussing your approach to state management. We've decided to move forward with another candidate whose backend experience more closely matches this particular opening, but we'd like to keep your resume on file for future roles. Wishing you the best in your search.",
-        created_at: "2026-01-18T16:40:05",
-        read: true,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e05",
-        name: "James O'Connor",
-        email: "james.oconnor@vercel.com",
-        title: "Loved your open-source contribution",
-        message:
-            "Hey — I'm on the DX team here and noticed you'd opened a PR against one of our examples repos a few months back, nice fix. Wasn't reaching out about that specifically, but it led me to your site and I think you'd be a great fit for our Developer Experience Engineer opening. No pressure at all, just wanted to flag it in case you're looking.",
-        created_at: "2026-01-12T08:15:00",
-        read: false,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e06",
-        name: "Sarah Chen",
-        email: "sarah.chen@stripe.com",
-        title: "Following up — Frontend Engineer role",
-        message:
-            "Just floating this back to the top of your inbox in case it got buried. Totally understand if the timing isn't right, but wanted to check if you had 15 minutes this week or next to connect. Let me know either way!",
-        created_at: "2026-01-12T13:05:00",
-        read: false,
-    },
-    {
-        id: "e3b0c442-98fc-4e1e-8b1f-1a2b3c4d5e07",
-        name: "Amanda Torres",
-        email: "amanda.torres@notion.so",
-        title: "Quick question about your availability",
-        message:
-            "Hi there, I'm recruiting for a Senior Frontend role on our Docs team and your portfolio came up in a search for engineers with strong animation/interaction work — the micro-interactions on your project pages are a nice touch. Are you currently open to new opportunities, or is your site more of a 'not actively looking but always curious' situation? Either answer is totally fine, just trying to gauge timing.",
-        created_at: "2026-01-09T10:30:00",
-        read: true,
-    },
-];
+import { deleteResponse, getResponses, markAsRead } from "../../../../services/contacts.api";
 
 // Format an ISO datetime into something readable, falling back gracefully
 // if the string doesn't parse (e.g. during local mock/dev data).
@@ -106,13 +32,27 @@ function shortId(uuid) {
 }
 
 export default function InboxDashboard() {
-    const [transmissions, setTransmissions] = useState(INITIAL_TRANSMISSIONS);
-    const [activeId, setActiveId] = useState(INITIAL_TRANSMISSIONS[0]?.id ?? null);
+    const [transmissions, setTransmissions] = useState([]);
+    const [activeId, setActiveId] = useState(null);
     const [expandedId, setExpandedId] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
 
+    const [reading, setReading] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+
     // Check if we're on mobile
     useEffect(() => {
+
+        async function get_responses() {
+            const res = await getResponses()
+            if (res) {
+                setTransmissions(res)
+            } else {
+                alert(`Error ${res?.message}`)
+            }
+        }
+        get_responses()
+
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 1024);
         };
@@ -123,14 +63,27 @@ export default function InboxDashboard() {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const markRead = (id, read) => {
-        setTransmissions(prev =>
-            prev.map(t => (t.id === id ? { ...t, read } : t))
-        );
+    const markRead = async (id, read) => {
+        setReading(true)
+        const res = await markAsRead(id, read)
+        if (res) {
+            setTransmissions(prev => prev.map(t => t.id === id ? { ...t, read } : t))
+        } else {
+            alert(`Error ${res?.message}`)
+        }
+        setReading(false)
+
     };
 
-    const handleDelete = (id) => {
-        setTransmissions(prev => prev.filter(t => t.id !== id));
+    const handleDelete = async (id) => {
+        setIsDeleting(true)
+        const res = await deleteResponse(id)
+        if (res) {
+            setTransmissions(prev => prev.filter(t => t.id !== id));
+        } else {
+            alert(`Error ${res?.message}`)
+        }
+        setIsDeleting(false)
     };
 
     const handleCardClick = (id) => {
@@ -229,13 +182,13 @@ export default function InboxDashboard() {
                                                         <span className="material-symbols-outlined">
                                                             {selectedTransmission.read ? "mark_email_unread" : "mark_email_read"}
                                                         </span>
-                                                        {selectedTransmission.read ? "MARK_UNREAD()" : "MARK_READ()"}
+                                                        {reading ? "PROCESSING..." : (selectedTransmission.read ? "MARK_UNREAD()" : "MARK_READ()")}
                                                     </button>
                                                     <button
                                                         className={styles.deleteButton}
                                                         onClick={() => handleDelete(selectedTransmission.id)}
                                                     >
-                                                        <span className="material-symbols-outlined">delete_forever</span> DELETE_()
+                                                        <span className="material-symbols-outlined">delete_forever</span> {isDeleting ? "PROCESSING..." : "DELETE_()"}
                                                     </button>
                                                 </div>
                                             </div>
