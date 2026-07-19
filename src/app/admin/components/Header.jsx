@@ -7,17 +7,8 @@ export default function AdminHeader() {
         <header className={styles.header}>
             <div className={styles.headerLeft}>
                 <span className={styles.headerTitle} onClick={() => router.push('/')}>NAVEEN_THARUKA</span>
-                <nav className={styles.headerNav}>
-                    <a href="#">PROJECTS</a>
-                    <a href="#">INTERESTS</a>
-                    <a href="#">LOGS</a>
-                </nav>
             </div>
             <div className={styles.headerRight}>
-                <div className={styles.statusBadge}>
-                    <span className="material-symbols-outlined">terminal</span>
-                    <span>SYSTEM_STATUS: AUTHENTICATED_ROOT</span>
-                </div>
                 <button className={styles.settingsBtn}>
                     <span className="material-symbols-outlined">settings</span>
                 </button>

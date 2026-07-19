@@ -1,7 +1,15 @@
+import { useRouter } from 'next/navigation'
 import styles from './SideBar.module.css'
+import { usePathname } from 'next/navigation'
+
 export default function SideBar() {
+
+    const router = useRouter()
+    const path = usePathname()
+
     return (
-        < aside className={styles.sidebar} >
+
+        <aside className={styles.sidebar}>
             <div className={styles.sidebarBrand}>
                 <div className={styles.sidebarBrandRow}>
                     <div className={styles.sidebarBrandIcon}>
@@ -18,16 +26,13 @@ export default function SideBar() {
                 <a className={styles.sidebarNavItem} href="#">
                     <span className="material-symbols-outlined">dashboard</span> DASHBOARD
                 </a>
-                <a className={styles.sidebarNavItemActive} href="#">
-                    <span className="material-symbols-outlined">database</span> REPOSITORIES
+                <a className={path === '/admin/projects' ? styles.sidebarNavItemActive : styles.sidebarNavItem} onClick={() => router.push('/admin/projects')}>
+                    <span className="material-symbols-outlined">code</span> REPOSITORIES
                 </a>
-                <a className={styles.sidebarNavItem} href="#">
-                    <span className="material-symbols-outlined">router</span> INFRASTRUCTURE
+                <a className={path === '/admin/interests' ? styles.sidebarNavItemActive : styles.sidebarNavItem} onClick={() => router.push('/admin/interests')}>
+                    <span className="material-symbols-outlined">interests</span> Interests
                 </a>
-                <a className={styles.sidebarNavItem} href="#">
-                    <span className="material-symbols-outlined">monitoring</span> ANALYTICS
-                </a>
-                <a className={styles.sidebarNavItem} href="#">
+                <a className={path === '/admin/contact' ? styles.sidebarNavItemActive : styles.sidebarNavItem} onClick={() => router.push('/admin/contact')}>
                     <span className="material-symbols-outlined">forum</span> RESPONSES
                 </a>
             </nav>

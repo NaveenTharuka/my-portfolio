@@ -70,6 +70,7 @@
 }
 
 .sidebarNavItem {
+    cursor: pointer;
     font-family: var(--font-terminal-code);
     font-size: 14px;
     letter-spacing: 0.1em;

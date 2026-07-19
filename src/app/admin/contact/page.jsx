@@ -6,6 +6,7 @@ import AdminHeader from "../components/Header";
 import SideBar from "../components/AdminSideBar";
 import AdminResponses from "../components/AdminResponses";
 import { deleteResponse, getResponses, markAsRead } from "../../../../services/contacts.api";
+import AdminLoader from "../components/AdminLoader";
 
 // Format an ISO datetime into something readable, falling back gracefully
 // if the string doesn't parse (e.g. during local mock/dev data).
@@ -37,6 +38,7 @@ export default function InboxDashboard() {
     const [expandedId, setExpandedId] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
 
+    const [loading, setLoading] = useState(false)
     const [reading, setReading] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -44,12 +46,14 @@ export default function InboxDashboard() {
     useEffect(() => {
 
         async function get_responses() {
+            setLoading(true)
             const res = await getResponses()
             if (res) {
                 setTransmissions(res)
             } else {
                 alert(`Error ${res?.message}`)
             }
+            setLoading(false)
         }
         get_responses()
 
@@ -100,6 +104,12 @@ export default function InboxDashboard() {
 
     const selectedTransmission = transmissions.find(t => t.id === activeId);
     const unreadCount = transmissions.filter(t => !t.read).length;
+
+    if (loading) {
+        return (
+            <AdminLoader />
+        )
+    }
 
     return (
         <div className={styles.root}>
