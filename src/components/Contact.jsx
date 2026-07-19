@@ -6,7 +6,7 @@ import { addResponse } from '../../services/contacts.api';
 
 const INITIAL_STATE = { name: '', email: '', title: '', message: '' };
 
-export default function ContactSection() {
+export default function ContactSection({ id }) {
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
@@ -47,7 +47,7 @@ export default function ContactSection() {
     }[status];
 
     return (
-        <section className={styles.section} id="contact">
+        <section className={styles.section} id={id}>
             <div className={styles.blueprintGrid} />
             <div className={styles.container}>
                 <div className={styles.grid}>

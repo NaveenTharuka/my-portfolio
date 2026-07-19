@@ -88,19 +88,20 @@ export default function Home() {
       focus: 'Focus: Backend Architecture'
     },
     {
-      id: 2,
-      year: '2019',
-      title: 'GCE Ordinary Level (O/L)',
-      issuer: 'At Embilipitiya Royal College',
-      status: 'Completed'
-    },
-    {
       id: 3,
       year: '2020 - 2023',
       title: 'GCE Advanced Level (A/L)',
       issuer: 'At Embilipitiya Udagama Maha Vidyalaya',
       focus: 'Focus: Physics, Chemistry & C. Mathematics'
+    },
+    {
+      id: 2,
+      year: '2019',
+      title: 'GCE Ordinary Level (O/L)',
+      issuer: 'At Embilipitiya Royal College',
+      status: 'Completed'
     }
+
   ]
 
   // const interests = [
@@ -199,7 +200,7 @@ export default function Home() {
       <Projects id={"projects"} projects={projects} />
 
       {/* Contact Form */}
-      <Contact />
+      <Contact id={"contact"} />
 
       {/* Footer */}
       <Footer />

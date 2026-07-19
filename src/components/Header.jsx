@@ -25,7 +25,7 @@ export default function Header({ activeSection, navLinks }) {
                     ))}
                 </nav>
                 <div className="flex items-center gap-6">
-                    <button className="bg-[#c9c6c5] text-[#0c0e14] px-8 py-2.5 rounded-none font-['Geist_Mono'] text-[14px] uppercase tracking-widest hover:bg-white transition-all active:scale-95">
+                    <button onClick={() => window.location.href = "#contact"} className="bg-[#c9c6c5] text-[#0c0e14] px-8 py-2.5 rounded-none font-['Geist_Mono'] text-[14px] uppercase tracking-widest hover:bg-white transition-all active:scale-95">
                         Connect
                     </button>
                 </div>
