@@ -107,7 +107,7 @@ export default function InboxDashboard() {
 
     if (loading) {
         return (
-            <AdminLoader />
+            <AdminLoader text={"LOADING_RESPONSES"} />
         )
     }
 
