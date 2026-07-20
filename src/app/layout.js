@@ -1,4 +1,5 @@
 // app/layout.js
+import AuthProvider from './admin/auth/authProvider';
 import './globals.css';
 import { Inter, Geist_Mono } from 'next/font/google';
 
@@ -40,7 +41,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${inter.variable} ${geistMono.variable} font-body-md text-on-surface bg-surface-container-lowest selection:bg-primary selection:text-surface-container-lowest overflow-x-hidden`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,9 +1,11 @@
 import { useRouter } from 'next/navigation'
 import styles from './SideBar.module.css'
 import { usePathname } from 'next/navigation'
+import { useAuth } from '../auth/authProvider'
 
 export default function SideBar() {
 
+    const { logout } = useAuth()
     const router = useRouter()
     const path = usePathname()
 
@@ -38,7 +40,7 @@ export default function SideBar() {
             </nav>
 
             <div className={styles.sidebarBottom}>
-                <button className={styles.logoutButton}>
+                <button className={styles.logoutButton} onClick={() => { logout(); alert("User Logged Out Successfully"); router.push('/'); }}>
                     <span className="material-symbols-outlined">logout</span> LOGOUT
                 </button>
             </div>
